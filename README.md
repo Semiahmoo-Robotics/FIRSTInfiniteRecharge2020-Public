@@ -8,7 +8,7 @@ We will be using Java.
 Download the official C++ and Java Development Tools for FRC.
  * [Download here](https://github.com/wpilibsuite/allwpilib/releases)
  
- Clone this repo to your local machine. 
+ Clone this repo to your local machine. More information [here](https://rogerdudler.github.io/git-guide/).
 
 ## Contributing
 
