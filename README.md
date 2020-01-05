@@ -14,7 +14,7 @@ Download the official C++ and Java Development Tools for FRC.
 
 Follow these workflow steps to contribute:
 
-1. Go to [Github Projects](https://trello.com/b/vYKeIKsT/programming) and choose an issue to work on. You may also create a card regarding a specific issue, but it needs to get approval from the CODEOWNERS before taking action. Make sure to add yourself on the card.
+1. Go to [Github Projects](https://github.com/Semiahmoo-Robotics/FRC-2020-InfiniteRecharge/projects) and choose an issue to work on. You may also create a card regarding a specific issue, but it needs to get approval from the CODEOWNERS before taking action. Make sure to add yourself on the card.
 2. Make a new branch for your feature. Name it "[Your name]_[Issue #/Feature Name]" Here's examples: "ethan_#32", "aden_drivetrainAutoBug"
 3. Implement your feature in your local repository, and commit it to the remote branch.
 4. push that branch to the GitHub remote and make a pull request.
