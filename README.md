@@ -26,14 +26,14 @@ Make sure to add yourself on the contributors.md file as well.
 
 ## Authors
 
-[CODEOWNERS](https://github.com/Semiahmoo-Robotics/6458SemiRobotics-DeepSpace2019/blob/master/doc/CODEOWNERS) have the right to approve pull requests.
+[CODEOWNERS](https://github.com/Semiahmoo-Robotics/FRC-2020-InfiniteRecharge/tree/master/doc/CODEOWNERS) have the right to approve pull requests.
 
-See the list of [contributors](https://github.com/Semiahmoo-Robotics/6458SemiRobotics-DeepSpace2019/blob/master/doc/Contributors.md) who participated in this project.
+See the list of [contributors](https://github.com/Semiahmoo-Robotics/FRC-2020-InfiniteRecharge/tree/master/doc/Contributors.md) who participated in this project.
 
 ## Resources
 
-Please refer to the official documentation for the FRC Control System for programming help.
- * [link](https://docs.wpilib.org/en/latest/docs/getting-started/getting-started-frc-control-system/wpilib-setup.html)
+Please refer to the official documentation for programming help.
+ * [FRC Control System 2020 Documentation](https://docs.wpilib.org/en/latest/docs/getting-started/getting-started-frc-control-system/wpilib-setup.html)
  * [WPI Library - FIRST API Java Documentation](http://first.wpi.edu/FRC/roborio/release/docs/java/)
  
 A active forum if you need help.
