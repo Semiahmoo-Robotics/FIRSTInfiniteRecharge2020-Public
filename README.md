@@ -21,9 +21,22 @@ Follow these workflow steps to contribute:
 4. push that branch to the GitHub remote and make a pull request.
 5. I will check your changes, then merge your branch with master.
 
-IMPORTANT: No committing to master directly, please.
+IMPORTANT: No committing to master directly, please. (There is branch protection, so you can't do that anyways.)
 
 Make sure to add yourself on the contributors.md file as well.
+
+## Conventions
+
+Please follow the below Java conventions for the sake of everyone's eyes.
+(Following conventions makes the code easier to read for both you and me)
+
+**Classes & Interfaces**: Nouns, Upper Camel Case. (First letter capitalized)
+**Subsystem Classes**: Preferably, add "Sstm".
+**Command Classes**: Preferably, add "Cmd".
+**Methods**: Verbs, Lower Camel Case. (First letter lowercase)
+**Variables & Objects**: lower camel case. Please avoid one letters, unless it's tempeory, such as a loop.
+**Constants**: All uppercase with words seperated by underscores ("\_").
+**Member Variables**: Add "\m_". lower Camel Case.
 
 ## Authors
 
