@@ -1,2 +1,2 @@
 * [Ethan Kim](https://github.com/paperairplain)
-* [Justin Chiang] (https://github.com/TheEpicSpark)
+* [Justin Chiang](https://github.com/TheEpicSpark)
