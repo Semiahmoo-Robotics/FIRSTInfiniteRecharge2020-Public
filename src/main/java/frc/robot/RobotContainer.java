@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ArcadeDriveCmd;
+import frc.robot.commands.CurvatureDriveCmd;
 import frc.robot.commands.TankDriveCmd;
 import frc.robot.subsystems.DriveSstm;
 
@@ -33,9 +35,15 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+
     // Set default commands
-    m_DriveSstm.setDefaultCommand(new TankDriveCmd(
+    /* m_DriveSstm.setDefaultCommand(new TankDriveCmd(
+      m_DriveSstm, m_controller)); */
+    m_DriveSstm.setDefaultCommand(new ArcadeDriveCmd(
       m_DriveSstm, m_controller));
+    /* m_DriveSstm.setDefaultCommand(new CurvatureDriveCmd(
+      m_DriveSstm, m_controller)); */
+
   }
 
   /**

@@ -7,8 +7,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,16 +20,45 @@ public class DriveSstm extends SubsystemBase {
 
   private final Spark m_lSpark = new Spark(Constants.L_DRIVE_PORT);
   private final Spark m_rSpark = new Spark(Constants.R_DRIVE_PORT);
-
   private final DifferentialDrive m_chassis = new DifferentialDrive(m_lSpark, m_rSpark);
+
+  private final Encoder m_lEncoder
+    = new Encoder(Constants.L_ENCODER_A, Constants.L_ENCODER_B, Constants.L_ENCODER_REVERSED);
+  private final Encoder m_rEncoder
+    = new Encoder(Constants.R_ENCODER_A, Constants.R_ENCODER_B, Constants.R_ENCODER_REVERSED);
+
+  private final Gyro m_gyro = new ADXRS450_Gyro();
 
   public DriveSstm() {
     // Stops motor if the robot loses connection to the driver station.
+    m_lSpark.setInverted(Constants.L_SPARK_REVERSED);
+    m_rSpark.setInverted(Constants.R_SPARK_REVERSED);
     m_chassis.setSafetyEnabled(true);
   }
 
   public void TankDrive(double l, double r) {
     m_chassis.tankDrive(l, r, false);
   }
+
+  public void ArcadeDrive(double x, double z) {
+    m_chassis.arcadeDrive(x, z, false);
+  }
+
+  public void CurvatureDrive(double x, double z, boolean quickTurn) {
+    m_chassis.curvatureDrive(x, z, quickTurn);
+  }
+
+  public Gyro getGyro() {
+    return m_gyro;
+  }
+
+  public Encoder getLEncoder() {
+    return m_lEncoder;
+  }
+
+  public Encoder getREncoder() {
+    return m_rEncoder;
+  }
+  
 
 }
