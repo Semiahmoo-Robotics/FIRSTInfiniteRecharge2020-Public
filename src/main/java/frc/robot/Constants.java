@@ -16,15 +16,21 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
     //PWM
     public static final int L_DRIVE_PORT = 0;
     public static final int R_DRIVE_PORT = 1;
+    public static final int L_LAUNCHER_PORT = 0;
+	public static final int R_LAUNCHER_PORT = 1;
 
     //DIO
     public static final int L_ENCODER_A = 0;
     public static final int L_ENCODER_B = 1;
     public static final int R_ENCODER_A = 2;
     public static final int R_ENCODER_B = 3;
+
+    //Other
+    public static final int PDP_ID = 0;
 
     //Controller
     public static final int CONTROLLER_PORT = 1;

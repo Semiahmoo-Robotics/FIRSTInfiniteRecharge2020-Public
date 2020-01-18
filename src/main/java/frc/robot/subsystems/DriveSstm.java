@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -30,9 +29,9 @@ public class DriveSstm extends SubsystemBase {
   private final Gyro m_gyro = new ADXRS450_Gyro();
 
   public DriveSstm() {
-    // Stops motor if the robot loses connection to the driver station.
     m_lSpark.setInverted(Constants.L_SPARK_REVERSED);
     m_rSpark.setInverted(Constants.R_SPARK_REVERSED);
+    // Stops motor if the robot loses connection to the driver station.
     m_chassis.setSafetyEnabled(true);
   }
 

@@ -13,6 +13,7 @@ import frc.robot.commands.ArcadeDriveCmd;
 import frc.robot.commands.CurvatureDriveCmd;
 import frc.robot.commands.TankDriveCmd;
 import frc.robot.subsystems.DriveSstm;
+import frc.robot.subsystems.LauncherSstm;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -24,6 +25,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here.
   private final DriveSstm m_DriveSstm = new DriveSstm();
+  private final LauncherSstm m_LauncherSstm = new LauncherSstm();
 
   //OI devices
   private final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);
@@ -34,7 +36,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
 
     // Set default commands
     /* m_DriveSstm.setDefaultCommand(new TankDriveCmd(
@@ -53,6 +54,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
   }
 
 }
