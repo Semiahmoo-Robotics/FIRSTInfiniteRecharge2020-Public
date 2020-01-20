@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -20,9 +19,6 @@ public class Robot extends TimedRobot {
   
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-
-  private PowerDistributionPanel m_pdp = new PowerDistributionPanel(Constants.PDP_CAN_PORT);
-  private Logger m_log = new Logger();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -49,10 +45,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
-    //Logs.
-    m_log.robotStatusLog(m_pdp);
-    m_log.limelightLog();
   }
 
   /**
@@ -105,7 +97,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    m_log.gameDataLog();
   }
 
   @Override

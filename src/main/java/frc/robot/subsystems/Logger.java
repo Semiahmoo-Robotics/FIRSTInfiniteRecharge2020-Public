@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -13,18 +13,24 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 /**
- * Used to log various data to either to the Smart Dashboard, Shuffle Board, Console.
+ * Used to log various data to either to the Smart Dashboard, Shuffle Board,
+ * Console.
  */
-public class Logger {
+public class Logger extends SubsystemBase {
+
+    private PowerDistributionPanel m_pdp = new PowerDistributionPanel(Constants.PDP_CAN_PORT);
 
     public Logger() {
         super();
     }
 
     /**
-     * Reads the data for tx, ty, and ta from the network tables, and logs it on the Smart Dashboard.
+     * Reads the data for tx, ty, and ta from the network tables, and logs it on the
+     * Smart Dashboard.
      */
     public void limelightLog() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -32,12 +38,12 @@ public class Logger {
         NetworkTableEntry ty = table.getEntry("ty");
         NetworkTableEntry ta = table.getEntry("ta");
 
-        //read values periodically
+        // read values periodically
         double x = tx.getDouble(0.0);
         double y = ty.getDouble(0.0);
         double area = ta.getDouble(0.0);
 
-        //post to smart dashboard periodically
+        // post to smart dashboard periodically
         SmartDashboard.putNumber("LimelightX", x);
         SmartDashboard.putNumber("LimelightY", y);
         SmartDashboard.putNumber("LimelightArea", area);
@@ -53,19 +59,27 @@ public class Logger {
     public void gameDataLog() {
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
         switch (gameData.charAt(0)) {
-            case 'Y':
+        case 'Y':
             gameData = "Yellow";
             break;
-            case 'B':
+        case 'B':
             gameData = "Blue";
             break;
-            case 'R':
+        case 'R':
             gameData = "Red";
             break;
-            case 'G':
+        case 'G':
             gameData = "Green";
             break;
         }
         SmartDashboard.putString("Position Control Color", gameData);
     }
+
+    @Override
+    public void periodic() {
+        this.limelightLog();
+        this.gameDataLog();
+        this.robotStatusLog(m_pdp);
+    }
+
 }
