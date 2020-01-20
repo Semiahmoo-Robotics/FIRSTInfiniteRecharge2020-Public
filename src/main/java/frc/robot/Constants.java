@@ -30,7 +30,7 @@ public final class Constants {
     public static final int R_ENCODER_B = 3;
 
     //Other
-    public static final int PDP_ID = 0;
+	public static final int PDP_CAN_PORT = 0;
 
     //Controller
     public static final int CONTROLLER_PORT = 1;
