@@ -7,33 +7,26 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSstm;
 
 public class ArcadeDriveCmd extends CommandBase {
   
   private final DriveSstm m_driveSstm;
-  private final XboxController m_joystick;
+  private final DoubleSupplier m_x, m_z;
   
-  public ArcadeDriveCmd(DriveSstm sstm, XboxController js) {
+  public ArcadeDriveCmd(DriveSstm sstm, DoubleSupplier x, DoubleSupplier z) {
     m_driveSstm = sstm;
-    m_joystick = js;
+    m_x = x;
+    m_z = z;
     addRequirements(m_driveSstm);
   }
 
   @Override
   public void execute() {
-    //multiplyer
-    double m = 0.75;
-    if (m_joystick.getBButton()) {
-      m = 1.0;
-    } else if (m_joystick.getYButton()) {
-      m = 0.5;
-    }
-    m_driveSstm.ArcadeDrive(m_joystick.getY(Hand.kLeft) * m,
-    m_joystick.getX(Hand.kLeft) * m);
+    m_driveSstm.arcadeDrive(m_x.getAsDouble(), m_z.getAsDouble());
   }
 
 }

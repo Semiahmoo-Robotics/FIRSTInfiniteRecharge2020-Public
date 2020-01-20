@@ -9,13 +9,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDriveCmd;
-import frc.robot.commands.CurvatureDriveCmd;
 import frc.robot.commands.TankDriveCmd;
+import frc.robot.commands.PreciseRobotDriveCmd;
+import frc.robot.commands.BoostRobotDriveCmd;
+import frc.robot.commands.CurvatureDriveCmd;
 import frc.robot.subsystems.DriveSstm;
-import frc.robot.subsystems.LauncherSstm;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -27,7 +31,6 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here.
   private final DriveSstm m_DriveSstm = new DriveSstm();
-  private final LauncherSstm m_LauncherSstm = new LauncherSstm();
 
   //OI devices
   private final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);
@@ -40,17 +43,22 @@ public class RobotContainer {
     configureButtonBindings();
 
     //Drive Default Command Choices
-    //#1 - Tank Drive
-    /* m_DriveSstm.setDefaultCommand(new TankDriveCmd(
-      m_DriveSstm, m_controller)); */
-    
-    //#2 - Arcade Drive
-    m_DriveSstm.setDefaultCommand(new ArcadeDriveCmd(
-      m_DriveSstm, m_controller));
 
-    //#3 - Curvature Drive
-    /* m_DriveSstm.setDefaultCommand(new CurvatureDriveCmd(
-      m_DriveSstm, m_controller)); */
+    
+    /* //#1 - Tank Drive
+    m_DriveSstm.setDefaultCommand(new TankDriveCmd(
+        m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getY(Hand.kRight)));
+    */
+
+    /* //#2 - Arcade Drive
+    m_DriveSstm.setDefaultCommand(new ArcadeDriveCmd(
+        m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getX(Hand.kLeft)));
+    */
+    
+    // #3 - Curvature Drive
+    m_DriveSstm.setDefaultCommand(new CurvatureDriveCmd(
+        m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getX(Hand.kLeft), () -> m_controller.getBButton()));
+   
 
   }
 
@@ -62,6 +70,12 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
+    //Left Bumper -> Boost Drive
+    new JoystickButton(m_controller, Button.kBumperRight.value)
+        .whenHeld(new BoostRobotDriveCmd(m_DriveSstm));
+    //Right Bumper -> Precision Drive
+    new JoystickButton(m_controller, Button.kBumperLeft.value)
+        .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
   }
 
   /**

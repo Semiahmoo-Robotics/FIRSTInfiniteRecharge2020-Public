@@ -21,24 +21,24 @@ public final class Constants {
     public static final int L_DRIVE_PORT = 0;
     public static final int R_DRIVE_PORT = 1;
     public static final int L_LAUNCHER_PORT = 0;
-	public static final int R_LAUNCHER_PORT = 1;
-
+    public static final int R_LAUNCHER_PORT = 1;
+    
     //DIO
     public static final int L_ENCODER_A = 0;
     public static final int L_ENCODER_B = 1;
     public static final int R_ENCODER_A = 2;
     public static final int R_ENCODER_B = 3;
 
+    //Controller
+    public static final int CONTROLLER_PORT = 0;
+
     //Other
 	public static final int PDP_CAN_PORT = 0;
-
-    //Controller
-    public static final int CONTROLLER_PORT = 1;
 
     //Reverse Rotations
     public static final boolean L_ENCODER_REVERSED = false;
 	public static final boolean R_ENCODER_REVERSED = false;
     public static final boolean L_SPARK_REVERSED = true;
-	public static final boolean R_SPARK_REVERSED = false;
+    public static final boolean R_SPARK_REVERSED = false;
 
 }

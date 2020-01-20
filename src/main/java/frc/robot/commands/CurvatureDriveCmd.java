@@ -7,33 +7,29 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSstm;
 
 public class CurvatureDriveCmd extends CommandBase {
 
   private final DriveSstm m_driveSstm;
-  private final XboxController m_joystick;
+  private final DoubleSupplier m_x, m_z;
+  private final BooleanSupplier m_quickTurn;
 
-  public CurvatureDriveCmd(DriveSstm sstm, XboxController js) {
+  public CurvatureDriveCmd(DriveSstm sstm, DoubleSupplier x, DoubleSupplier z, BooleanSupplier quickTurn) {
     m_driveSstm = sstm;
-    m_joystick = js;
+    m_x = x;
+    m_z = z;
+    m_quickTurn = quickTurn;
     addRequirements(sstm);
   }
 
   @Override
   public void execute() {
-
-    boolean quickTurn = false;
-
-    if (m_joystick.getBButton()) {
-      quickTurn = true;
-    }
-    m_driveSstm.CurvatureDrive(
-      m_joystick.getY(Hand.kLeft), m_joystick.getX(Hand.kLeft), quickTurn);
-
+    m_driveSstm.curvatureDrive(m_x.getAsDouble(), m_z.getAsDouble(), !m_quickTurn.getAsBoolean());
   }
 
 }

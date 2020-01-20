@@ -31,20 +31,25 @@ public class DriveSstm extends SubsystemBase {
   public DriveSstm() {
     m_lSpark.setInverted(Constants.L_SPARK_REVERSED);
     m_rSpark.setInverted(Constants.R_SPARK_REVERSED);
+    m_chassis.setMaxOutput(0.75);
     // Stops motor if the robot loses connection to the driver station.
     m_chassis.setSafetyEnabled(true);
   }
 
-  public void TankDrive(double l, double r) {
+  public void tankDrive(double l, double r) {
     m_chassis.tankDrive(l, r, false);
   }
 
-  public void ArcadeDrive(double x, double z) {
+  public void arcadeDrive(double x, double z) {
     m_chassis.arcadeDrive(x, z, false);
   }
 
-  public void CurvatureDrive(double x, double z, boolean quickTurn) {
+  public void curvatureDrive(double x, double z, boolean quickTurn) {
     m_chassis.curvatureDrive(x, z, quickTurn);
+  }
+
+  public void setMaxOuput(double n) {
+    m_chassis.setMaxOutput(n);
   }
 
   public Gyro getGyro() {
