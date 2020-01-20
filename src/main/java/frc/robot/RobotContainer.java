@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.ArcadeDriveCmd;
 import frc.robot.commands.TankDriveCmd;
 import frc.robot.commands.PreciseRobotDriveCmd;
@@ -78,7 +79,7 @@ public class RobotContainer {
         .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
     //A Button -> Aim on Vision Targets (LimeLight)
     new JoystickButton(m_controller, Button.kA.value)
-        .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
+        .whenHeld(new AimChassisCmd(m_DriveSstm));
   }
 
   /**

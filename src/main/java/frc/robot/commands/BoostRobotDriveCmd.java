@@ -12,11 +12,10 @@ import frc.robot.subsystems.DriveSstm;
 
 public class BoostRobotDriveCmd extends CommandBase {
 
-  DriveSstm m_DriveSstm;
+  private final DriveSstm m_DriveSstm;
 
   public BoostRobotDriveCmd(DriveSstm sstm) {
     m_DriveSstm = sstm;
-    addRequirements(sstm);
   }
 
   @Override

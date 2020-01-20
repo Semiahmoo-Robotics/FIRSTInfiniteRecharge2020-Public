@@ -18,7 +18,6 @@ import frc.robot.subsystems.DriveSstm;
 public class AimChassisCmd extends CommandBase {
 
   private final DriveSstm m_driveSstm;
-  private final BooleanSupplier m_isHoldingButton;
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
   //Proportional Constant 
@@ -26,9 +25,8 @@ public class AimChassisCmd extends CommandBase {
   final float DEADBAND = Constants.LIMELIGHT_AIM_MIN_DEADBAND;
 
 
-  public AimChassisCmd(DriveSstm sstm, BooleanSupplier isHoldingButton) {
+  public AimChassisCmd(DriveSstm sstm) {
     m_driveSstm = sstm;
-    m_isHoldingButton = isHoldingButton;
     addRequirements(sstm);
   }
 
@@ -49,11 +47,5 @@ public class AimChassisCmd extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_driveSstm.tankDrive(0, 0);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return !m_isHoldingButton.getAsBoolean();
   }
 }
