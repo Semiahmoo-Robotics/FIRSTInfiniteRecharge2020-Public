@@ -76,6 +76,9 @@ public class RobotContainer {
     //Right Bumper -> Precision Drive
     new JoystickButton(m_controller, Button.kBumperLeft.value)
         .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
+    //A Button -> Aim on Vision Targets (LimeLight)
+    new JoystickButton(m_controller, Button.kA.value)
+        .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
   }
 
   /**

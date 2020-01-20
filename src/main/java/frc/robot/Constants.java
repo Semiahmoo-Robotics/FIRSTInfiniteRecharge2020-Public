@@ -41,4 +41,8 @@ public final class Constants {
     public static final boolean L_SPARK_REVERSED = true;
     public static final boolean R_SPARK_REVERSED = false;
 
+    //Constants
+    public static final float LIMELIGHT_AIM_KP = -0.1f;
+    public static final float LIMELIGHT_AIM_MIN_DEADBAND = 0.05f;
+
 }
