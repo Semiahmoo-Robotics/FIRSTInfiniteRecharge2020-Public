@@ -1,6 +1,6 @@
 * [Howard Li](https://github.com/howard-2718)
 * [Ethan Kim](https://github.com/paperairplain)
-* [Zhan-Zhan Ge] (https://github.com/Dumble-Berries)
+* [Zhan-Zhan Ge](https://github.com/Dumble-Berries)
 * [Justin Chiang](https://github.com/TheEpicSpark)
 * [Aden Chan](https://github.com/21chanas3)
 * [Lucy Mo](https://github.com/lululucyyyyyyy)
