@@ -22,4 +22,7 @@ public final class Constants {
 
     //Controller
     public static final int CONTROLLER_PORT = 1;
+
+    //PCM
+    public static final int PCM_MODULE = 0;
 }
