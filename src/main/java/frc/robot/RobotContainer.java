@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.ArcadeDriveCmd;
@@ -37,31 +38,35 @@ public class RobotContainer {
   private final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   * Constructor runs at robot init - Place robot init code here.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
-    //Drive Default Command Choices
+    // Sets the default command for the drivetrain subsystem
+    setDefaultDrive();
+  
+    //Calibrates gyro.
+    new InstantCommand(() -> m_DriveSstm.calibrateGyro(), m_DriveSstm);
+    }
 
-    
-    /* //#1 - Tank Drive
+  private void setDefaultDrive() {
+    //#1 - Tank Drive
     m_DriveSstm.setDefaultCommand(new TankDriveCmd(
         m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getY(Hand.kRight)));
-    */
+  
 
     /* //#2 - Arcade Drive
     m_DriveSstm.setDefaultCommand(new ArcadeDriveCmd(
         m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getX(Hand.kLeft)));
     */
     
-    // #3 - Curvature Drive
+/*     // #3 - Curvature Drive
     m_DriveSstm.setDefaultCommand(new CurvatureDriveCmd(
         m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getX(Hand.kLeft), () -> m_controller.getBButton()));
-   
-
-  }
+ */  }
 
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by

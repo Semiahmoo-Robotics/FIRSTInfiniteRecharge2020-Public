@@ -57,6 +57,22 @@ public class DriveSstm extends SubsystemBase {
     return m_gyro;
   }
 
+  public void zeroHeading() {
+    m_gyro.reset();
+  }
+
+  public void calibrateGyro() {
+    m_gyro.calibrate();
+  }
+
+  public double getGyroDeg() {
+    return m_gyro.getAngle();
+  }
+
+  public double getTurnRate() {
+    return m_gyro.getRate();
+  }
+
   public Encoder getLEncoder() {
     return m_lEncoder;
   }
