@@ -39,10 +39,27 @@ public final class Constants {
     public static final boolean L_ENCODER_REVERSED = false;
 	public static final boolean R_ENCODER_REVERSED = false;
     public static final boolean L_SPARK_REVERSED = true;
-    public static final boolean R_SPARK_REVERSED = false;
+    public static final boolean R_SPARK_REVERSED = true;
 
-    //Constants
+    //Robot Speeds
+    public static final double PRECISION_SPEED = 0.5;
+    public static final double NORMAL_SPEED = 0.75;
+    public static final double BOOST_SPEED = 1.0;
+
+    //limelight
     public static final float LIMELIGHT_AIM_KP = -0.1f;
     public static final float LIMELIGHT_AIM_MIN_DEADBAND = 0.05f;
 
+    //Encoder constants
+    public static final double ENCODER_DISTANCE_PER_PULSE = 0;
+
+    // Robot characterization values
+    // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
+    // values for your robot.
+    public static final double KS_VOLTS = 0;
+    public static final double KV_VOLT_SEC_PER_METER = 0;
+    public static final double KA_VOLT_SEC_SQUARE_PER_METER = 0;
+
+    //  this must be tuned for your drive!
+    public static final double KP_DRIVE_VEL = 8.5;
 }

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSstm;
 
 public class PreciseRobotDriveCmd extends CommandBase {
@@ -20,12 +21,12 @@ public class PreciseRobotDriveCmd extends CommandBase {
 
   @Override
   public void initialize() {
-    m_DriveSstm.setMaxOuput(0.5);
+    m_DriveSstm.setMaxOuput(Constants.PRECISION_SPEED);
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_DriveSstm.setMaxOuput(0.75);
+    m_DriveSstm.setMaxOuput(Constants.NORMAL_SPEED);
   }
 
 }
