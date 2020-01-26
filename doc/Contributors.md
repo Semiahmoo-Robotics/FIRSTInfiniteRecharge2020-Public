@@ -1,3 +1,4 @@
+* [Roy Hwang](https://github.com/royhwang12)
 * [Howard Li](https://github.com/howard-2718)
 * [Ethan Kim](https://github.com/paperairplain)
 * [Zhan-Zhan Ge](https://github.com/Dumble-Berries)
