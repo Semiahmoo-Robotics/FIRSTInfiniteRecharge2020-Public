@@ -16,9 +16,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
+import frc.robot.commands.LaunchCellCmd;
 import frc.robot.commands.PreciseRobotDriveCmd;
 import frc.robot.commands.TankDriveCmd;
 import frc.robot.subsystems.DriveSstm;
+import frc.robot.subsystems.LauncherSstm;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -30,9 +32,10 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here.
   private final DriveSstm m_DriveSstm = new DriveSstm();
+  private final LauncherSstm m_LauncherSstm = new LauncherSstm();
 
   //OI devices
-  private final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);
+  public final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -80,6 +83,9 @@ public class RobotContainer {
     //A Button -> Aim on Vision Targets (LimeLight)
     new JoystickButton(m_controller, Button.kA.value)
         .whenHeld(new AimChassisCmd(m_DriveSstm));
+    //X Button -> Shoot Power Cells
+    new JoystickButton(m_controller, Button.kX.value)
+        .whenHeld(new LaunchCellCmd(m_LauncherSstm));
   }
 
   /**
