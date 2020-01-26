@@ -7,29 +7,29 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSstm;
 
-public class TankDriveCmd extends CommandBase {
-  
-  private final DriveSstm m_driveSstm;
-  private final DoubleSupplier m_l;
-  private final DoubleSupplier m_r;
+public class CurvatureDriveCmd extends CommandBase {
 
-  public TankDriveCmd(DriveSstm sstm, DoubleSupplier l, DoubleSupplier r) {
+  private final DriveSstm m_driveSstm;
+  private final DoubleSupplier m_x, m_z;
+  private final BooleanSupplier m_quickTurn;
+
+  public CurvatureDriveCmd(DriveSstm sstm, DoubleSupplier x, DoubleSupplier z, BooleanSupplier quickTurn) {
     m_driveSstm = sstm;
-    m_l = l;
-    m_r = r;
-    addRequirements(m_driveSstm);
+    m_x = x;
+    m_z = z;
+    m_quickTurn = quickTurn;
+    addRequirements(sstm);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSstm.tankDrive(m_l.getAsDouble(), m_r.getAsDouble());
+    m_driveSstm.curvatureDrive(m_x.getAsDouble(), m_z.getAsDouble(), !m_quickTurn.getAsBoolean());
   }
-
 
 }

@@ -5,4 +5,4 @@
 * [Justin Chiang](https://github.com/TheEpicSpark)
 * [Aden Chan](https://github.com/21chanas3)
 * [Lucy Mo](https://github.com/lululucyyyyyyy)
-
+* [Joseph Hu](https://github.com/JJ-G4M3R))
