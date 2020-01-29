@@ -152,7 +152,7 @@ public class DriveSstm extends SubsystemBase {
   }
 
   public double getGyroDeg() {
-    return m_gyro.getAngle();
+    return Math.IEEEremainder(m_gyro.getAngle(), 360) * (Constants.GYRO_REVERSED ? -1.0 : 1.0);
   }
 
   public double getGyroTurnRate() {
