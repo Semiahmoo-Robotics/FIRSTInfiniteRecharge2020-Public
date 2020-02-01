@@ -22,8 +22,8 @@ public final class Constants {
     //PWM
     public static final int L_DRIVE_PORT = 0;
     public static final int R_DRIVE_PORT = 1;
-    public static final int L_LAUNCHER_PORT = 0;
-    public static final int R_LAUNCHER_PORT = 1;
+    public static final int L_LAUNCHER_PORT = 2;
+    public static final int R_LAUNCHER_PORT = 3;
     
     //TODO DIO
     public static final int L_ENCODER_A = 0;

@@ -30,22 +30,27 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
 import frc.robot.commands.PreciseRobotDriveCmd;
+import frc.robot.commands.ShootCmd;
 import frc.robot.commands.TankDriveCmd;
 import frc.robot.subsystems.DriveSstm;
+import frc.robot.subsystems.LauncherSstm;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here.
   private final DriveSstm m_DriveSstm = new DriveSstm();
+  private final LauncherSstm m_LauncherSstm = new LauncherSstm();
 
-  //OI devices
+  // OI devices
   private final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -93,6 +98,8 @@ public class RobotContainer {
     //A Button -> Aim on Vision Targets (LimeLight)
     new JoystickButton(m_controller, Button.kA.value)
         .whenHeld(new AimChassisCmd(m_DriveSstm));
+    new JoystickButton(m_controller, Button.kB.value)
+        .whenHeld(new ShootCmd(m_LauncherSstm));
   }
 
   /**
