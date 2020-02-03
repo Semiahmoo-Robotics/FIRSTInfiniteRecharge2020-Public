@@ -6,3 +6,4 @@
 * [Aden Chan](https://github.com/21chanas3)
 * [Lucy Mo](https://github.com/lululucyyyyyyy)
 * [Joseph Hu](https://github.com/JJ-G4M3R))
+* [James Jin](https://github.com/jamesjin0516)
