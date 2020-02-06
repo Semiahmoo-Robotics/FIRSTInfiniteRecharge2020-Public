@@ -24,6 +24,10 @@ public final class Constants {
     public static final int R_DRIVE_PORT = 1;
     public static final int L_LAUNCHER_PORT = 2;
     public static final int R_LAUNCHER_PORT = 3;
+    public static final int INTAKE_PORT = 4;
+    public static final int R_TUNNEL_PORT = 5;
+    public static final int L_TUNNEL_PORT = 6;
+    public static final int CHAMBER_PORT = 7;
     
     //TODO DIO
     public static final int L_ENCODER_A = 0;
@@ -33,6 +37,15 @@ public final class Constants {
 
     //Controller
     public static final int CONTROLLER_PORT = 0;
+
+    //PCM
+    public static final int PCM_MODULE = 0;
+
+    public static final int INTAKE_PISTONS_FWD_PORT = 0;
+    public static final int INTAKE_PISTONS_REV_PORT = 1;
+    public static final int EXTENDER_PISTONS_PORT = 2;
+    public static final int CLIMB_PISTONS_FWD_PORT = 3;
+    public static final int CLIMB_PISTONS_REV_PORT = 4;
 
     //Other
 	public static final int PDP_CAN_PORT = 0;
