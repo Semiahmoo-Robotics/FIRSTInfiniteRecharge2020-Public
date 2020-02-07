@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
@@ -98,8 +99,16 @@ public class RobotContainer {
     //A Button -> Aim on Vision Targets (LimeLight)
     new JoystickButton(m_controller, Button.kA.value)
         .whenHeld(new AimChassisCmd(m_DriveSstm));
+    //B Button -> Run Shooter
     new JoystickButton(m_controller, Button.kB.value)
         .whenHeld(new ShootCmd(m_LauncherSstm));
+
+    //Use X and Y buttons to test if both shooter motors run the same direction.
+    //Subject to change.
+    new JoystickButton(m_controller, Button.kX.value)
+        .whenHeld(new StartEndCommand(() -> m_LauncherSstm.setLeft(0.3), () -> m_LauncherSstm.stopLauncher(), m_LauncherSstm));
+    new JoystickButton(m_controller, Button.kY.value)
+        .whenHeld(new StartEndCommand(() -> m_LauncherSstm.setRight(0.3), () -> m_LauncherSstm.stopLauncher(), m_LauncherSstm));
   }
 
   /**

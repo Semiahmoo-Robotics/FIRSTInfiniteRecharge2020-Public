@@ -30,4 +30,12 @@ public class LauncherSstm extends SubsystemBase {
     m_rSpark.stopMotor();
   }
 
+  public void setLeft(double n) {
+    m_lSpark.set(n);
+  }
+
+  public void setRight(double n) {
+    m_rSpark.set(n);
+  }
+
 }
