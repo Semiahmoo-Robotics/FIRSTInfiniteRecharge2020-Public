@@ -8,33 +8,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.TunnelSstm;
 
 public class IntakeCmd extends CommandBase {
-  /**
-   * Creates a new IntakeCmd.
-   */
-  public IntakeCmd() {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+  private TunnelSstm m_TunnelSstm;
+
+  public IntakeCmd(TunnelSstm m_TunnelSstm) {
+    this.m_TunnelSstm = m_TunnelSstm;
+    addRequirements(m_TunnelSstm);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_TunnelSstm.startIntake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(m_TunnelSstm.getDistance() <= 30) {
+      m_TunnelSstm.startTunnel();
+    } else {
+      m_TunnelSstm.stopTunnel();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    m_TunnelSstm.stopIntake();
   }
 }

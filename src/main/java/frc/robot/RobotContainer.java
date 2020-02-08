@@ -29,9 +29,13 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
+import frc.robot.commands.ExtendClimbCmd;
+import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.PreciseRobotDriveCmd;
+import frc.robot.commands.RetractClimbCmd;
 import frc.robot.commands.ShootCmd;
 import frc.robot.commands.TankDriveCmd;
+import frc.robot.commands.PositionSpinCmd;
 import frc.robot.subsystems.ClimberSstm;
 import frc.robot.subsystems.DriveSstm;
 import frc.robot.subsystems.LauncherSstm;
@@ -104,11 +108,26 @@ public class RobotContainer {
     //Right Bumper -> Precision Drive
     new JoystickButton(m_controller, Button.kBumperLeft.value)
         .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
-    //A Button -> Aim on Vision Targets (LimeLight)
-    new JoystickButton(m_controller, Button.kA.value)
+    //X Button -> Aim on Vision Targets (LimeLight)
+    new JoystickButton(m_controller, Button.kX.value)
         .whenHeld(new AimChassisCmd(m_DriveSstm));
-    new JoystickButton(m_controller, Button.kB.value)
+    //Y Button -> Shoot
+    new JoystickButton(m_controller, Button.kY.value)
         .whenHeld(new ShootCmd(m_LauncherSstm));
+    //A Button -> Intake
+    new JoystickButton(m_controller, Button.kA.value)
+        .whenHeld(new IntakeCmd(m_TunnelSstm));
+    //B Button -> Color Spin
+    new JoystickButton(m_controller, Button.kB.value)
+        .whenHeld(new PositionSpinCmd(m_SpinnerSstm));
+    //A+Y -> Extend Climb
+    new JoystickButton(m_controller, Button.kA.value)
+        .and(new JoystickButton(m_controller, Button.kY.value))
+        .whenActive(new ExtendClimbCmd(m_ClimberSstm));
+    //X+A -> Retract Climb
+    new JoystickButton(m_controller, Button.kA.value)
+        .and(new JoystickButton(m_controller, Button.kX.value))
+        .whenActive(new RetractClimbCmd(m_ClimberSstm));
   }
 
   /**
