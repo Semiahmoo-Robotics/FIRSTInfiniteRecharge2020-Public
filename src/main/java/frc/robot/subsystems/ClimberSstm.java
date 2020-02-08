@@ -35,9 +35,13 @@ private final DoubleSolenoid m_climberDoubleSolenoid = new DoubleSolenoid(Consta
     m_climberDoubleSolenoid.set(Value.kReverse);
   }
 
-  /* 
   public void setupClimb() {
-    Extends extenders and climbers with delay. Need testing to find delay value
+    m_extenderSolenoid.set(true);
+    try {
+      Thread.sleep((long)(55)); //55 is the number when tested on high pressure.
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    m_climberDoubleSolenoid.set(Value.kForward);
   } 
-  */
 }

@@ -32,8 +32,12 @@ import frc.robot.commands.BoostRobotDriveCmd;
 import frc.robot.commands.PreciseRobotDriveCmd;
 import frc.robot.commands.ShootCmd;
 import frc.robot.commands.TankDriveCmd;
+import frc.robot.subsystems.ClimberSstm;
 import frc.robot.subsystems.DriveSstm;
 import frc.robot.subsystems.LauncherSstm;
+import frc.robot.subsystems.PneumaticsSstm;
+import frc.robot.subsystems.SpinnerSstm;
+import frc.robot.subsystems.TunnelSstm;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -47,6 +51,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here.
   private final DriveSstm m_DriveSstm = new DriveSstm();
   private final LauncherSstm m_LauncherSstm = new LauncherSstm();
+  private final SpinnerSstm m_SpinnerSstm = new SpinnerSstm();
+  private final PneumaticsSstm m_PneumaticsSstm = new PneumaticsSstm();
+  private final ClimberSstm m_ClimberSstm = new ClimberSstm();
+  private final TunnelSstm m_TunnelSstm = new TunnelSstm();
+
 
   // OI devices
   private final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);

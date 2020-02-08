@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 
 /**
@@ -28,6 +29,7 @@ public final class Constants {
     public static final int R_TUNNEL_PORT = 5;
     public static final int L_TUNNEL_PORT = 6;
     public static final int CHAMBER_PORT = 7;
+    public static final int DIAL_SPINNER_PORT = 8;
     
     //TODO DIO
     public static final int L_ENCODER_A = 0;
@@ -48,7 +50,8 @@ public final class Constants {
     public static final int CLIMB_PISTONS_REV_PORT = 4;
 
     //Other
-	public static final int PDP_CAN_PORT = 0;
+    public static final int PDP_CAN_PORT = 0;
+    public static final I2C.Port COLOR_SENSOR_PORT = I2C.Port.kOnboard;
 
     //Reverse Rotations
     public static final boolean L_ENCODER_REVERSED = false;
