@@ -7,14 +7,30 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class TunnelSstm extends SubsystemBase {
   
-  private final Spark m_lSpark = new Spark(Constants.L_TUNNEL_PORT);
-  private final Spark m_rSpark = new Spark(Constants.R_TUNNEL_PORT);
+  //Intake
+  private final Spark m_intakeSpark = new Spark(Constants.INTAKE_PORT);
+  private final DoubleSolenoid m_intakeDoubleSolenoid = new DoubleSolenoid(Constants.INTAKE_PISTONS_FWD_PORT, Constants.INTAKE_PISTONS_REV_PORT);
+  
+  //Indexing Ultrasonic
+  private final AnalogInput m_ultrasonic = new AnalogInput(0);
+  private static double DEFAULT_SCALING_FACTOR = 5.0/1024.0;
+
+  //Tunnel
+  private final Spark m_lTunnelSpark = new Spark(Constants.L_TUNNEL_PORT);
+  private final Spark m_rTunnelSpark = new Spark(Constants.R_TUNNEL_PORT);
+
+  //Chamber
+  private final Spark m_chamberSpark = new Spark(Constants.CHAMBER_PORT);
 
 
   public TunnelSstm() {
@@ -22,13 +38,70 @@ public class TunnelSstm extends SubsystemBase {
   }
 
   public void startTunnel() {
-    m_lSpark.set(0.4);
-    m_rSpark.set(0.4);
+    m_lTunnelSpark.set(0.4);
+    m_rTunnelSpark.set(0.4);
   }
 
   public void stopTunnel() {
-    m_lSpark.stopMotor();
-    m_rSpark.stopMotor();
+    m_lTunnelSpark.stopMotor();
+    m_rTunnelSpark.stopMotor();
   }
 
+  public void extendIntake() {
+    m_intakeDoubleSolenoid.set(Value.kForward);
+  }
+
+  public void retractIntake() {
+    m_intakeDoubleSolenoid.set(Value.kReverse);
+  }
+
+  public void startIntake() {
+    m_intakeSpark.set(0.4);
+  }
+
+  public void stopIntake() {
+    m_intakeSpark.stopMotor();
+  }
+
+  public void reverseIntake() {
+    m_intakeSpark.set(-0.2);
+  }
+
+  public double getVoltage() {
+    return m_ultrasonic.getAverageVoltage();
+  }
+  
+  public double getDistance() {
+    return 5 * (m_ultrasonic.getAverageVoltage() * DEFAULT_SCALING_FACTOR);
+  }
+
+  public void startChamber() {
+    m_chamberSpark.set(1.0);
+  }
+
+  public void stopChamber() {
+    m_chamberSpark.stopMotor();
+  }
+
+  public void startShootSequence() {
+    startChamber();
+    startTunnel();
+    stopIntake();
+  }
+
+  public void stopShootSequence() {
+    stopChamber();
+    stopTunnel();
+  }
+
+  public void startIntakeSequence() {
+    startIntake();
+    startTunnel();
+    stopChamber();
+  }
+
+  public void stopIntakeSequence() {
+    stopIntake();
+    stopTunnel();
+  }
 }
