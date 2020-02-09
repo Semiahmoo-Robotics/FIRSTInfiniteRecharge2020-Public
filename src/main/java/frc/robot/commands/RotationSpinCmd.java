@@ -43,15 +43,19 @@ public class RotationSpinCmd extends CommandBase {
     if(match.color == kCalibrated) {
       count++;
     }
-    if(count >= 3) {
-      m_dialSpinner.stopSpin();
-      finished = true;
-    }
   }
 
   @Override
   public boolean isFinished() {
-    return finished;
+    if(count >= 3) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
+  @Override
+  public void end(boolean interrupted) {
+    m_dialSpinner.stopSpin();
+  }
 }

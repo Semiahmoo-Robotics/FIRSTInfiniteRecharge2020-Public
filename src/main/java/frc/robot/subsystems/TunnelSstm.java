@@ -23,6 +23,9 @@ public class TunnelSstm extends SubsystemBase {
   //Indexing Ultrasonic
   private final AnalogInput m_ultrasonic = new AnalogInput(0);
   
+  //Shooter
+  private final Spark m_lShooterSpark = new Spark(Constants.L_SHOOTER_PORT);
+  private final Spark m_rShooterSpark = new Spark(Constants.R_SHOOTER_PORT);
 
   //Tunnel
   private final Spark m_lTunnelSpark = new Spark(Constants.L_TUNNEL_PORT);
@@ -33,7 +36,17 @@ public class TunnelSstm extends SubsystemBase {
 
 
   public TunnelSstm() {
+    m_lShooterSpark.setInverted(true);
+  }
 
+  public void startShooter() {
+    m_lShooterSpark.set(1.0);
+    m_rShooterSpark.set(1.0);
+  }
+
+  public void stopShooter() {
+    m_lShooterSpark.stopMotor();
+    m_rShooterSpark.stopMotor();
   }
 
   public void startTunnel() {

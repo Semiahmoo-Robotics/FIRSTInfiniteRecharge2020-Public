@@ -38,7 +38,6 @@ import frc.robot.commands.TankDriveCmd;
 import frc.robot.commands.PositionSpinCmd;
 import frc.robot.subsystems.ClimberSstm;
 import frc.robot.subsystems.DriveSstm;
-import frc.robot.subsystems.LauncherSstm;
 import frc.robot.subsystems.PneumaticsSstm;
 import frc.robot.subsystems.SpinnerSstm;
 import frc.robot.subsystems.TunnelSstm;
@@ -54,7 +53,6 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here.
   private final DriveSstm m_DriveSstm = new DriveSstm();
-  private final LauncherSstm m_LauncherSstm = new LauncherSstm();
   private final SpinnerSstm m_SpinnerSstm = new SpinnerSstm();
   private final PneumaticsSstm m_PneumaticsSstm = new PneumaticsSstm();
   private final ClimberSstm m_ClimberSstm = new ClimberSstm();
@@ -113,7 +111,7 @@ public class RobotContainer {
         .whenHeld(new AimChassisCmd(m_DriveSstm));
     //Y Button -> Shoot
     new JoystickButton(m_controller, Button.kY.value)
-        .whenHeld(new ShootCmd(m_LauncherSstm));
+        .whenHeld(new ShootCmd(m_TunnelSstm));
     //A Button -> Intake
     new JoystickButton(m_controller, Button.kA.value)
         .whenHeld(new IntakeCmd(m_TunnelSstm));
