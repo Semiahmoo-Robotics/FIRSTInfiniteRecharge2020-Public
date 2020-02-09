@@ -34,7 +34,6 @@ public class PositionSpinCmd extends CommandBase {
   private final SpinnerSstm m_dialSpinner;
   private final ColorMatch m_colorMatcher;
   private Color kTarget;
-  private boolean finished = false;
 
   public PositionSpinCmd(SpinnerSstm dialSpinner) {
     this.m_dialSpinner = dialSpinner;
@@ -71,16 +70,22 @@ public class PositionSpinCmd extends CommandBase {
 
   @Override
   public void execute() {
-    ColorMatchResult match = m_colorMatcher.matchClosestColor(m_dialSpinner.getColor());
-    if(match.color == kTarget) {
-      m_dialSpinner.stopSpin();
-      finished = true;
-    }
   }
 
   @Override
   public boolean isFinished() {
-    return finished;
+    ColorMatchResult match = m_colorMatcher.matchClosestColor(m_dialSpinner.getColor());
+    if(match.color == kTarget) {
+      m_dialSpinner.stopSpin();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public void end(boolean interrupted){
+    m_dialSpinner.stopSpin();
   }
 
 }

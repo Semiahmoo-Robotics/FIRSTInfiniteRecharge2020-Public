@@ -10,7 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TunnelSstm;
 
-public class IntakeCmd extends CommandBase {
+public class IntakeCmd extends CommandBase {  
 
   private TunnelSstm m_TunnelSstm;
 

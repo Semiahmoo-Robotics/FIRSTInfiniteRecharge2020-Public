@@ -52,6 +52,7 @@ public final class Constants {
     //Other
     public static final int PDP_CAN_PORT = 0;
     public static final I2C.Port COLOR_SENSOR_PORT = I2C.Port.kOnboard;
+    public static final double DEFAULT_SCALING_FACTOR = 5.0/1024.0;
 
     //Reverse Rotations
     public static final boolean L_ENCODER_REVERSED = false;

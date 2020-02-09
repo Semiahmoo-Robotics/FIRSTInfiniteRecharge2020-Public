@@ -22,7 +22,7 @@ public class TunnelSstm extends SubsystemBase {
   
   //Indexing Ultrasonic
   private final AnalogInput m_ultrasonic = new AnalogInput(0);
-  private static double DEFAULT_SCALING_FACTOR = 5.0/1024.0;
+  
 
   //Tunnel
   private final Spark m_lTunnelSpark = new Spark(Constants.L_TUNNEL_PORT);
@@ -71,7 +71,7 @@ public class TunnelSstm extends SubsystemBase {
   }
   
   public double getDistance() {
-    return 5 * (m_ultrasonic.getAverageVoltage() * DEFAULT_SCALING_FACTOR);
+    return 5 * (m_ultrasonic.getAverageVoltage() * Constants.DEFAULT_SCALING_FACTOR);
   }
 
   public void startChamber() {
