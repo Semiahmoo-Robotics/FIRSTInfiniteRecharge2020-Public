@@ -8,25 +8,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LauncherSstm;
+import frc.robot.subsystems.TunnelSstm;
 
 public class ShootCmd extends CommandBase {
   
-  private LauncherSstm m_launcherSstm;
+  private TunnelSstm m_tunnelSstm;
 
-  public ShootCmd(LauncherSstm sstm) {
-    m_launcherSstm = sstm;
+  public ShootCmd(TunnelSstm sstm) {
+    m_tunnelSstm = sstm;
     addRequirements(sstm);
   }
 
   @Override
   public void initialize() {
-    m_launcherSstm.startLauncher();
+    m_tunnelSstm.startShooter();
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_launcherSstm.stopLauncher();
+    m_tunnelSstm.stopShooter();
   }
 
 }
