@@ -23,8 +23,8 @@ public final class Constants {
     //PWM
     public static final int L_DRIVE_PORT = 0;
     public static final int R_DRIVE_PORT = 1;
-    public static final int L_LAUNCHER_PORT = 2;
-    public static final int R_LAUNCHER_PORT = 3;
+    public static final int L_SHOOTER_PORT = 2;
+    public static final int R_SHOOTER_PORT = 3;
     public static final int INTAKE_PORT = 4;
     public static final int R_TUNNEL_PORT = 5;
     public static final int L_TUNNEL_PORT = 6;

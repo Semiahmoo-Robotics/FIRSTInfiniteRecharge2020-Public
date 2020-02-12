@@ -12,9 +12,11 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  * Used to log various data to either to the Smart Dashboard, Shuffle Board,
@@ -23,6 +25,7 @@ import frc.robot.Constants;
 public class Logger extends SubsystemBase {
 
     private PowerDistributionPanel m_pdp = new PowerDistributionPanel(Constants.PDP_CAN_PORT);
+    private AHRS m_navX = new AHRS(SPI.Port.kMXP);
 
     public Logger() {
         super();
@@ -73,6 +76,10 @@ public class Logger extends SubsystemBase {
             break;
         }
         SmartDashboard.putString("Position Control Color", gameData);
+    }
+
+    public void gyroLog(){
+        SmartDashboard.putNumber("Angle", m_navX.getAngle());
     }
 
     @Override
