@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
@@ -52,6 +54,8 @@ public class RobotContainer {
   // OI devices
   private final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);
 
+  //Auto
+  private final SendableChooser<String> m_autoChooser = new SendableChooser<String>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -63,99 +67,91 @@ public class RobotContainer {
 
     // Sets the default command for the drivetrain subsystem
     setDefaultDrive();
-  
-    }
+
+    //Sets autochooser on the SmartDashboard
+    setAutochooser();
+
+  }
+
+  private void setAutochooser() {
+    m_autoChooser.setDefaultOption("moveForward", "moveForward");
+    m_autoChooser.addOption("simple3BallStn1", "simple3BallStn1");
+    m_autoChooser.addOption("simple3BallStn1", "simple3BallStn1");
+    m_autoChooser.addOption("simple3BallStn1", "simple3BallStn1");
+    
+  }
 
   private void setDefaultDrive() {
-    //#1 - Tank Drive
-    m_DriveSstm.setDefaultCommand(new TankDriveCmd(
-        m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getY(Hand.kRight)));
-  
+    // #1 - Tank Drive
+    m_DriveSstm.setDefaultCommand(
+        new TankDriveCmd(m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getY(Hand.kRight)));
 
-    /* //#2 - Arcade Drive
-    m_DriveSstm.setDefaultCommand(new ArcadeDriveCmd(
-        m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getX(Hand.kLeft)));
-    */
-    
-/*     // #3 - Curvature Drive
-    m_DriveSstm.setDefaultCommand(new CurvatureDriveCmd(
-        m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getX(Hand.kLeft), () -> m_controller.getBButton()));
- */  }
+    /*
+     * //#2 - Arcade Drive m_DriveSstm.setDefaultCommand(new ArcadeDriveCmd(
+     * m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () ->
+     * m_controller.getX(Hand.kLeft)));
+     */
+
+    /*
+     * // #3 - Curvature Drive m_DriveSstm.setDefaultCommand(new CurvatureDriveCmd(
+     * m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () ->
+     * m_controller.getX(Hand.kLeft), () -> m_controller.getBButton()));
+     */ }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
-    //Left Bumper -> Boost Drive
-    new JoystickButton(m_controller, Button.kBumperRight.value)
-        .whenHeld(new BoostRobotDriveCmd(m_DriveSstm));
-    //Right Bumper -> Precision Drive
-    new JoystickButton(m_controller, Button.kBumperLeft.value)
-        .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
-    //A Button -> Aim on Vision Targets (LimeLight)
-    new JoystickButton(m_controller, Button.kA.value)
-        .whenHeld(new AimChassisCmd(m_DriveSstm));
-    //B Button -> Run Shooter
-    new JoystickButton(m_controller, Button.kB.value)
-        .whenHeld(new ShootCmd(m_LauncherSstm));
 
-    //Use X and Y buttons to test if both shooter motors run the same direction.
-    //Subject to change.
-    new JoystickButton(m_controller, Button.kX.value)
-        .whenHeld(new StartEndCommand(() -> m_LauncherSstm.setLeft(0.3), () -> m_LauncherSstm.stopLauncher(), m_LauncherSstm));
-    new JoystickButton(m_controller, Button.kY.value)
-        .whenHeld(new StartEndCommand(() -> m_LauncherSstm.setRight(0.3), () -> m_LauncherSstm.stopLauncher(), m_LauncherSstm));
+    // Left Bumper -> Boost Drive
+    new JoystickButton(m_controller, Button.kBumperRight.value).whenHeld(new BoostRobotDriveCmd(m_DriveSstm));
+    // Right Bumper -> Precision Drive
+    new JoystickButton(m_controller, Button.kBumperLeft.value).whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
+    // A Button -> Aim on Vision Targets (LimeLight)
+    new JoystickButton(m_controller, Button.kA.value).whenHeld(new AimChassisCmd(m_DriveSstm));
+    // B Button -> Run Shooter
+    new JoystickButton(m_controller, Button.kB.value).whenHeld(new ShootCmd(m_LauncherSstm));
+
+    // Use X and Y buttons to test if both shooter motors run the same direction.
+    // Subject to change.
+    new JoystickButton(m_controller, Button.kX.value).whenHeld(
+        new StartEndCommand(() -> m_LauncherSstm.setLeft(0.3), () -> m_LauncherSstm.stopLauncher(), m_LauncherSstm));
+    new JoystickButton(m_controller, Button.kY.value).whenHeld(
+        new StartEndCommand(() -> m_LauncherSstm.setRight(0.3), () -> m_LauncherSstm.stopLauncher(), m_LauncherSstm));
   }
 
   /**
-  * Use this to pass the autonomous command to the main {@link Robot} class.
-  *
-  * @return the command to run in autonomous.
-  */
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous.
+   */
   public Command getAutonomousCommand() {
 
-    // Create a voltage constraint to ensure we don't accelerate too fast
-    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(
-      Constants.KS_VOLTS, Constants.KV_VOLT_SEC_PER_METER, Constants.KA_VOLT_SEC_SQUARE_PER_METER)
-      , Constants.DRIVE_KINEMATICS, 10);
-
-    // Create config for trajectory
-    var trajectoryConfig = new TrajectoryConfig(Constants.MAX_VEL_MPS, Constants.MAX_ACC_MPS2)
-        .setKinematics(Constants.DRIVE_KINEMATICS).addConstraint(autoVoltageConstraint);
-    
     // Trajectory in which the robot will follow
     Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
-      //Starting point: at origin facing +X direction
-      new Pose2d(0, 0, new Rotation2d(0)), 
-      // TODO set waypoints to travel through
-      List.of(
-        new Translation2d(1, 1),
-        new Translation2d(2, -1)
-      ),
-      //Ending point: TODO set ending point and direction facing.
-      new Pose2d(3, 0, new Rotation2d(0)),
-      // pass trajectory config
-      trajectoryConfig);
+        // Starting point: at origin facing +X direction
+        new Pose2d(0, 0, new Rotation2d(0)),
+        // TODO set waypoints to travel through
+        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        // Ending point: TODO set ending point and direction facing.
+        new Pose2d(3, 0, new Rotation2d(0)),
+        // pass trajectory config
+        trajectoryConfig);
 
-    // Get the total time of the trajectory in seconds and sends it to smart dashboard.
+    // Get the total time of the trajectory in seconds and sends it to smart
+    // dashboard.
     SmartDashboard.putNumber("Auto Length (sec)", autoTrajectory.getTotalTimeSeconds());
-    
-    RamseteCommand autoRamseteCommand = new RamseteCommand(
-      autoTrajectory,
-      m_DriveSstm::getPose,
-      new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
-      new SimpleMotorFeedforward(Constants.KS_VOLTS, Constants.KV_VOLT_SEC_PER_METER, Constants.KA_VOLT_SEC_SQUARE_PER_METER),
-      Constants.DRIVE_KINEMATICS,
-      m_DriveSstm::getWheelSpeeds,
-      new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
-      new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
-      m_DriveSstm::tankDriveVolts,
-      m_DriveSstm);
-    
+
+    RamseteCommand autoRamseteCommand = new RamseteCommand(autoTrajectory, m_DriveSstm::getPose,
+        new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
+        new SimpleMotorFeedforward(Constants.KS_VOLTS, Constants.KV_VOLT_SEC_PER_METER,
+            Constants.KA_VOLT_SEC_SQUARE_PER_METER),
+        Constants.DRIVE_KINEMATICS, m_DriveSstm::getWheelSpeeds, new PIDController(Constants.KP_DRIVE_VEL, 0, 0),
+        new PIDController(Constants.KP_DRIVE_VEL, 0, 0), m_DriveSstm::tankDriveVolts, m_DriveSstm);
+
     // Run path following command, then stop at the end.
     return autoRamseteCommand.andThen(() -> m_DriveSstm.tankDriveVolts(0, 0));
 
