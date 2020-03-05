@@ -138,7 +138,7 @@ public class DriveSstm extends SubsystemBase {
    *
    * @param n value between 0 and 1, where 1 is the maximum speed.
    */
-  public void setMaxOuput(double n) {
+  public void setMaxOutput(double n) {
     m_chassis.setMaxOutput(n);
   }
 
