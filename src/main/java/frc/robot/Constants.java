@@ -54,6 +54,8 @@ public final class Constants {
     public static final double BOOST_SPEED = 1.0;
     public static final double INTAKE_SPEED = 0.7;
     public static final double TUNNEL_SPEED = 0.4;
+    public static final double TUNNEL_SHUFFLE_UP_SPEED = 0.4;
+    public static final double TUNNEL_SHUFFLE_DOWN_SPEED = -0.4;
     public static final double LAUNCHER_SPEED = 1.0;
 
     //limelight

@@ -14,19 +14,20 @@ import frc.robot.subsystems.LauncherSstm;
 public class TunnelCmd extends CommandBase {
 
   private LauncherSstm m_launcherSstm;
+  private double direction;
 
   //Shuffleboard Config
-  private double m_tunnelSpeed = Constants.TUNNEL_SPEED;
 
-  public TunnelCmd(LauncherSstm sstm) {
-    m_launcherSstm = sstm;
+  public TunnelCmd(LauncherSstm sstm, double direction) {
+    this.m_launcherSstm = sstm;
+    this.direction = direction;
     addRequirements(sstm);
   }
 
   // Called when the command is initially scheduled
   @Override
   public void initialize() {
-    m_launcherSstm.setTunnel(m_tunnelSpeed);
+    m_launcherSstm.setTunnel(direction);
   }
 
   // Called once the command ends or is interrupted.
