@@ -1,4 +1,7 @@
-import DriveSstm;
+package frc.robot.Autonomous;
+
+import frc.robot.subsystems.DriveSstm;
+import frc.robot.Constants;
 
 public class distanceDrive {
     
@@ -29,10 +32,10 @@ public class distanceDrive {
         driveSystem.zeroREncoder();
 
         while(true) {
-            distanceLeft = distance - driveSystem.getAverageEncoderDistance();
+            double distanceLeft = distance - driveSystem.getAverageEncoderDistance();
             if(distanceLeft >= brakingDistance) {
                 driveSystem.setMaxOutput(Constants.BOOST_SPEED);
-                driveSyste.tankDrive(1.0, 1.0);
+                driveSystem.tankDrive(1.0, 1.0);
             } else if (distanceLeft < brakingDistance) {
                 driveSystem.setMaxOutput(Constants.PRECISION_SPEED);
                 driveSystem.tankDrive(1.0, 1.0);
@@ -49,4 +52,5 @@ public class distanceDrive {
      */
     public void driveDistance() {
         driveDistance(this.defaultDistance);
+    }
 }

@@ -21,12 +21,12 @@ public class BoostRobotDriveCmd extends CommandBase {
 
   @Override
   public void initialize() {
-    m_DriveSstm.setMaxOuput(Constants.BOOST_SPEED);
+    m_DriveSstm.setMaxOutput(Constants.BOOST_SPEED);
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_DriveSstm.setMaxOuput(Constants.NORMAL_SPEED);
+    m_DriveSstm.setMaxOutput(Constants.NORMAL_SPEED);
   }
 
 }
