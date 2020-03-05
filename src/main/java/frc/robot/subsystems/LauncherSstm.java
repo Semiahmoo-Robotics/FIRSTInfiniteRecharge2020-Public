@@ -13,29 +13,57 @@ import frc.robot.Constants;
 
 public class LauncherSstm extends SubsystemBase {
 
-  private final Spark m_lSpark = new Spark(Constants.L_LAUNCHER_PORT);
-  private final Spark m_rSpark = new Spark(Constants.R_LAUNCHER_PORT);
+  //Launcher
+  private final Spark m_lLauncherSpark = new Spark(Constants.L_LAUNCHER_PORT);
+  private final Spark m_rLauncherSpark = new Spark(Constants.R_LAUNCHER_PORT);
+
+  //Tunnel
+  private final Spark m_tunnelSpark = new Spark(Constants.TUNNEL_PORT);
+
+  //Intake
+  private final Spark m_intakeSpark = new Spark(Constants.INTAKE_PORT);
 
   public LauncherSstm() {
-    m_lSpark.setInverted(true);
+    m_rLauncherSpark.setInverted(true);
+    m_tunnelSpark.setInverted(true);
+    m_intakeSpark.setInverted(false);
   }
 
-  public void startLauncher() {
-    m_lSpark.set(1.0);
-    m_rSpark.set(1.0);
+  //Launcher Functions
+  public void setLauncher(double speed) {
+    m_lLauncherSpark.set(speed);
+    m_rLauncherSpark.set(speed);
   }
 
   public void stopLauncher() {
-    m_lSpark.stopMotor();
-    m_rSpark.stopMotor();
+    m_lLauncherSpark.stopMotor();
+    m_rLauncherSpark.stopMotor();
   }
 
-  public void setLeft(double n) {
-    m_lSpark.set(n);
+  public void setLeft(double speed) {
+    m_lLauncherSpark.set(speed);
   }
 
-  public void setRight(double n) {
-    m_rSpark.set(n);
+  public void setRight(double speed) {
+    m_rLauncherSpark.set(speed);
+  }
+
+  //Tunnel Functions
+  public void setTunnel(double speed) {
+    m_tunnelSpark.set(speed);
+  }
+
+  public void stopTunnel() {
+    m_tunnelSpark.stopMotor();
+  }
+
+  //Intake Functions
+  public void setIntake(double speed) {
+    m_intakeSpark.set(speed);
+  }
+
+  public void stopIntake() {
+    m_intakeSpark.stopMotor();
   }
 
 }
