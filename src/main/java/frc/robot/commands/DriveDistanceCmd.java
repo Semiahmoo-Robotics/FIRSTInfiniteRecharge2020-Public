@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSstm;
 
-public class driveDistance extends CommandBase {
+public class DriveDistanceCmd extends CommandBase {
   
   private DriveSstm m_driveSstm;
   private double m_lEncoderInit;
@@ -21,7 +21,7 @@ public class driveDistance extends CommandBase {
   /**
    * Creates a new driveDistance.
    */
-  public driveDistance(DriveSstm drive, double distance) {
+  public DriveDistanceCmd(DriveSstm drive, double distance) {
     this.m_driveSstm = drive;
     this.m_distance = distance;
     addRequirements(m_driveSstm);
