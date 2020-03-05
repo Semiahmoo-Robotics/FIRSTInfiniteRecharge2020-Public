@@ -26,13 +26,14 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
+import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.PreciseRobotDriveCmd;
 import frc.robot.commands.ShootCmd;
 import frc.robot.commands.TankDriveCmd;
+import frc.robot.commands.TriggerLaunchCmd;
+import frc.robot.commands.TunnelCmd;
 import frc.robot.subsystems.DriveSstm;
 import frc.robot.subsystems.LauncherSstm;
 
@@ -63,6 +64,9 @@ public class RobotContainer {
 
     // Sets the default command for the drivetrain subsystem
     setDefaultDrive();
+
+    m_LauncherSstm.setDefaultCommand(new TriggerLaunchCmd(m_LauncherSstm,
+       () -> m_controller.getTriggerAxis(Hand.kLeft), () -> m_controller.getTriggerAxis(Hand.kLeft)));
   
     }
 
@@ -70,8 +74,10 @@ public class RobotContainer {
     //#1 - Tank Drive
     m_DriveSstm.setDefaultCommand(new TankDriveCmd(
         m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getY(Hand.kRight)));
-  
 
+    /*m_LauncherSstm.setDefaultCommand(new LauncherCmd(
+      m_LauncherSstm, () -> m_controller.getTriggerAxis(Hand.kLeft), () -> m_controller.getTriggerAxis(Hand.kLeft);
+    );*/
     /* //#2 - Arcade Drive
     m_DriveSstm.setDefaultCommand(new ArcadeDriveCmd(
         m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getX(Hand.kLeft)));
@@ -98,17 +104,15 @@ public class RobotContainer {
         .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
     //A Button -> Aim on Vision Targets (LimeLight)
     new JoystickButton(m_controller, Button.kA.value)
-        .whenHeld(new AimChassisCmd(m_DriveSstm));
-    //B Button -> Run Shooter
-    new JoystickButton(m_controller, Button.kB.value)
+        .whenHeld(new TunnelCmd(m_LauncherSstm));
+    //Y Button -> Toggle Tunnel TODO: Bind Intake to Left Trigger
+    new JoystickButton(m_controller, Button.kY.value)
+        .whenHeld(new IntakeCmd(m_LauncherSstm));
+    //X Button -> Run Shooter TODO: Bind Shoot to Right Trigger
+    new JoystickButton(m_controller, Button.kX.value)
         .whenHeld(new ShootCmd(m_LauncherSstm));
-
     //Use X and Y buttons to test if both shooter motors run the same direction.
     //Subject to change.
-    new JoystickButton(m_controller, Button.kX.value)
-        .whenHeld(new StartEndCommand(() -> m_LauncherSstm.setLeft(0.3), () -> m_LauncherSstm.stopLauncher(), m_LauncherSstm));
-    new JoystickButton(m_controller, Button.kY.value)
-        .whenHeld(new StartEndCommand(() -> m_LauncherSstm.setRight(0.3), () -> m_LauncherSstm.stopLauncher(), m_LauncherSstm));
   }
 
   /**
@@ -119,16 +123,16 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
-    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(
+    final var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(
       Constants.KS_VOLTS, Constants.KV_VOLT_SEC_PER_METER, Constants.KA_VOLT_SEC_SQUARE_PER_METER)
       , Constants.DRIVE_KINEMATICS, 10);
 
     // Create config for trajectory
-    var trajectoryConfig = new TrajectoryConfig(Constants.MAX_VEL_MPS, Constants.MAX_ACC_MPS2)
+    final var trajectoryConfig = new TrajectoryConfig(Constants.MAX_VEL_MPS, Constants.MAX_ACC_MPS2)
         .setKinematics(Constants.DRIVE_KINEMATICS).addConstraint(autoVoltageConstraint);
     
     // Trajectory in which the robot will follow
-    Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
+    final Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
       //Starting point: at origin facing +X direction
       new Pose2d(0, 0, new Rotation2d(0)), 
       // TODO set waypoints to travel through
@@ -144,7 +148,7 @@ public class RobotContainer {
     // Get the total time of the trajectory in seconds and sends it to smart dashboard.
     SmartDashboard.putNumber("Auto Length (sec)", autoTrajectory.getTotalTimeSeconds());
     
-    RamseteCommand autoRamseteCommand = new RamseteCommand(
+    final RamseteCommand autoRamseteCommand = new RamseteCommand(
       autoTrajectory,
       m_DriveSstm::getPose,
       new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
