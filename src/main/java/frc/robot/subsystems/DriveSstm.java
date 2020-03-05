@@ -44,8 +44,8 @@ public class DriveSstm extends SubsystemBase {
     // Stops motor if the robot loses connection to the driver station.
     m_chassis.setSafetyEnabled(true);
 
-    m_lEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
-    m_rEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
+    m_lEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_METERS_PER_PULSE);
+    m_rEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_METERS_PER_PULSE);
     zeroREncoder();
     zeroLEncoder();
     calibrateGyro();
@@ -140,6 +140,10 @@ public class DriveSstm extends SubsystemBase {
    */
   public void setMaxOutput(double n) {
     m_chassis.setMaxOutput(n);
+  }
+
+  public void stopChassis() {
+    m_chassis.tankDrive(0, 0);
   }
 
 
