@@ -66,7 +66,7 @@ public class RobotContainer {
     setDefaultDrive();
 
     m_LauncherSstm.setDefaultCommand(new TriggerLaunchCmd(m_LauncherSstm,
-       () -> m_controller.getTriggerAxis(Hand.kLeft), () -> m_controller.getTriggerAxis(Hand.kLeft)));
+       () -> m_controller.getTriggerAxis(Hand.kLeft), () -> m_controller.getTriggerAxis(Hand.kRight)));
   
     }
 
