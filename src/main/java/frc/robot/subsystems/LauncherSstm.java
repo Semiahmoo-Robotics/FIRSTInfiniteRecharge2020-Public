@@ -66,4 +66,10 @@ public class LauncherSstm extends SubsystemBase {
     m_intakeSpark.stopMotor();
   }
 
+  public void stopAll() {
+    stopIntake();
+    stopLauncher();
+    stopTunnel();
+  }
+
 }

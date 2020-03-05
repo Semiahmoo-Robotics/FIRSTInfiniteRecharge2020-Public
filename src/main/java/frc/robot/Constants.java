@@ -59,6 +59,7 @@ public final class Constants {
 
     //TODO limelight
     public static final float LIMELIGHT_AIM_KP = -0.1f;
+    public static final float LIMELIGHT_DISTANCE_KP = -0.1f;
     public static final float LIMELIGHT_AIM_MIN_DEADBAND = 0.05f;
 
     //TODO Encoder constants

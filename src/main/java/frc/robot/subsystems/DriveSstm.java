@@ -142,6 +142,10 @@ public class DriveSstm extends SubsystemBase {
     m_chassis.setMaxOutput(n);
   }
 
+  public void stopChassis() {
+    m_chassis.tankDrive(0, 0);
+  }
+
 
   public void zeroGyroHeading() {
     m_gyro.reset();

@@ -13,7 +13,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.IntakeCmd;
@@ -125,13 +129,24 @@ public class RobotContainer {
 
     switch (m_autoChooser.getSelected()) {
       case "moveForward":
-        autoCommand = new DriveStraight(m_DriveSstm, 1);
+        autoCommand = new DriveStraight(m_DriveSstm, 1).withTimeout(5);
+        break;
+      case "moveBackAndShoot":
+        autoCommand = new SequentialCommandGroup(
+          new DriveStraight(m_DriveSstm, -1).withTimeout(5),
+          new AimChassisCmd(m_DriveSstm).withTimeout(5),
+          new ShootCmd(m_LauncherSstm).withTimeout(5)
+          );
+        break;
       default:
-        autoCommand = new DriveStraight(m_DriveSstm, 1);
+        autoCommand = new DriveStraight(m_DriveSstm, 1).withTimeout(5);
         break;
     }
 
-    return autoCommand;
+    return new SequentialCommandGroup(autoCommand, new ParallelCommandGroup(
+      new InstantCommand(m_DriveSstm::stopChassis, m_DriveSstm), 
+      new InstantCommand(m_LauncherSstm::stopAll, m_LauncherSstm)
+    ));
   }
 
 }
