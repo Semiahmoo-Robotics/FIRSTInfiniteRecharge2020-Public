@@ -19,8 +19,8 @@ public class AimChassisCmd extends CommandBase {
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
   //Proportional Constant 
-  final float KP = Constants.LIMELIGHT_AIM_KP;
-  final float DEADBAND = Constants.LIMELIGHT_AIM_MIN_DEADBAND;
+  private float KP = Constants.LIMELIGHT_AIM_KP;
+  private float DEADBAND = Constants.LIMELIGHT_AIM_MIN_DEADBAND;
 
 
   public AimChassisCmd(DriveSstm sstm) {
@@ -36,7 +36,7 @@ public class AimChassisCmd extends CommandBase {
     if (tx > 1.0) {
       steering_adjust = KP * heading_error - DEADBAND;
     } else if (tx < 1.0) {
-      steering_adjust = KP*heading_error + DEADBAND;
+      steering_adjust = KP * heading_error + DEADBAND;
     }
     m_driveSstm.tankDrive(steering_adjust, -steering_adjust);
   }
