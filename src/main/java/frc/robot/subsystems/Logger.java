@@ -52,8 +52,6 @@ public class Logger extends SubsystemBase {
     public void robotStatusLog(PowerDistributionPanel pdp) {
         SmartDashboard.putNumber("PDPTemperature", pdp.getTemperature());
         SmartDashboard.putNumber("PDPInputVoltage", pdp.getVoltage());
-        SmartDashboard.putNumber("Current Channel 1", pdp.getCurrent(1));
-        SmartDashboard.putNumber("Current Channel 1", pdp.getCurrent(1));
     }
 
     public void gameDataLog() {

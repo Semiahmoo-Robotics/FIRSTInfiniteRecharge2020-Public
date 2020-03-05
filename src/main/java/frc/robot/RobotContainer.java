@@ -19,11 +19,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
-import frc.robot.commands.ExtendClawCmd;
 import frc.robot.commands.DriveStraight;
-import frc.robot.commands.IntakeCmd;
+import frc.robot.commands.ExtendClawCmd;
 import frc.robot.commands.PreciseRobotDriveCmd;
-import frc.robot.commands.RetractClawCmd;
 import frc.robot.commands.ShootCmd;
 import frc.robot.commands.TankDriveCmd;
 import frc.robot.commands.TriggerLaunchCmd;
@@ -76,6 +74,8 @@ public class RobotContainer {
   private void setDefaultCommands() {
 
     // Launcher Triggers Default Command
+    // Left Trigger -> Run Intake
+    // Right Trigger -> Run Shooting sequence: Tunnel and Shooter
     m_LauncherSstm.setDefaultCommand(new TriggerLaunchCmd(m_LauncherSstm, () -> m_controller.getTriggerAxis(Hand.kLeft),
         () -> m_controller.getTriggerAxis(Hand.kRight)));
 
@@ -117,11 +117,11 @@ public class RobotContainer {
     //A Button -> Aim on Vision Targets (LimeLight)
     new JoystickButton(m_controller, Button.kA.value)
         .whenHeld(new AimChassisCmd(m_DriveSstm));
-    //Left Stick Button -> Tunnel Shuffle Up
-    new JoystickButton(m_controller, Button.kStickLeft.value)
+    //Y Button -> Tunnel Shuffle Up
+    new JoystickButton(m_controller, Button.kY.value)
     .whenHeld(new TunnelCmd(m_LauncherSstm, Constants.TUNNEL_SHUFFLE_UP_SPEED));
-    //Right Stick Button -> Tunnel Shuffle Down
-    new JoystickButton(m_controller, Button.kStickRight.value)
+    //X Button -> Tunnel Shuffle Down
+    new JoystickButton(m_controller, Button.kX.value)
     .whenHeld(new TunnelCmd(m_LauncherSstm, Constants.TUNNEL_SHUFFLE_DOWN_SPEED));
     //B Button -> Trigger Claw Motor
     new JoystickButton(m_controller, Button.kB.value)
