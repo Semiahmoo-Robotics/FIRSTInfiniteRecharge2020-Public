@@ -8,32 +8,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.LauncherSstm;
+import frc.robot.subsystems.ClimbSstm;
 
-public class TunnelCmd extends CommandBase {
+public class RetractClawCmd extends CommandBase {
 
-  private LauncherSstm m_launcherSstm;
-  private double direction;
+  private final ClimbSstm m_climbSstm;
 
-  //Shuffleboard Config
-
-  public TunnelCmd(LauncherSstm sstm, double direction) {
-    this.m_launcherSstm = sstm;
-    this.direction = direction;
-    addRequirements(sstm);
+  public RetractClawCmd(ClimbSstm subsystem) {
+    this.m_climbSstm = subsystem;
+    addRequirements(m_climbSstm);
   }
 
-  // Called when the command is initially scheduled
   @Override
   public void initialize() {
-    m_launcherSstm.setTunnel(direction);
+    m_climbSstm.retractClaw();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_launcherSstm.stopTunnel();
+    m_climbSstm.stopAll();
   }
 
   // Returns true when the command should end.
