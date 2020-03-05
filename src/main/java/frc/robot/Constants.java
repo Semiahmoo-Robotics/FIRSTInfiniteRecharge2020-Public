@@ -24,6 +24,9 @@ public final class Constants {
     public static final int R_DRIVE_PORT = 1;
     public static final int L_LAUNCHER_PORT = 2;
     public static final int R_LAUNCHER_PORT = 3;
+    public static final int TUNNEL_PORT = 4;
+    public static final int INTAKE_PORT = 5;
+    public static final int CLIMB_PORT = 6;
     
     //TODO DIO
     public static final int L_ENCODER_A = 0;
@@ -33,6 +36,7 @@ public final class Constants {
 
     //Controller
     public static final int CONTROLLER_PORT = 0;
+    public static final double TRIGGER_DEADBAND = 0.3d;
 
     //Other
 	public static final int PDP_CAN_PORT = 0;
@@ -49,7 +53,10 @@ public final class Constants {
     public static final double NORMAL_SPEED = 0.75;
     public static final double BOOST_SPEED = 1.0;
     public static final double AUTO_STRAIGHT_DRIVE_SPEED = 0.5;
-    
+    public static final double INTAKE_SPEED = 0.7;
+    public static final double TUNNEL_SPEED = 0.4;
+    public static final double LAUNCHER_SPEED = 1.0;
+
     //limelight
     public static final float LIMELIGHT_AIM_KP = -0.1f;
     public static final float LIMELIGHT_AIM_MIN_DEADBAND = 0.05f;
