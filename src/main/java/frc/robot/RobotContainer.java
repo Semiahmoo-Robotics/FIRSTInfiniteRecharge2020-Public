@@ -19,13 +19,16 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
+import frc.robot.commands.ExtendClawCmd;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.PreciseRobotDriveCmd;
+import frc.robot.commands.RetractClawCmd;
 import frc.robot.commands.ShootCmd;
 import frc.robot.commands.TankDriveCmd;
 import frc.robot.commands.TriggerLaunchCmd;
 import frc.robot.commands.TunnelCmd;
+import frc.robot.subsystems.ClimbSstm;
 import frc.robot.subsystems.DriveSstm;
 import frc.robot.subsystems.LauncherSstm;
 
@@ -41,6 +44,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here.
   private final DriveSstm m_DriveSstm = new DriveSstm();
   private final LauncherSstm m_LauncherSstm = new LauncherSstm();
+  private final ClimbSstm m_ClimbSstm = new ClimbSstm();
 
   // OI devices
   private final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);
@@ -61,7 +65,7 @@ public class RobotContainer {
 
     // Sets autochooser on the SmartDashboard
     setAutochooser();
-
+    
   }
 
   private void setAutochooser() {
@@ -103,19 +107,26 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
-    // Left Bumper -> Boost Drive
-    new JoystickButton(m_controller, Button.kBumperRight.value).whenHeld(new BoostRobotDriveCmd(m_DriveSstm));
-    // Right Bumper -> Precision Drive
-    new JoystickButton(m_controller, Button.kBumperLeft.value).whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
-    // A Button -> Aim on Vision Targets (LimeLight)
-    new JoystickButton(m_controller, Button.kA.value).whenHeld(new TunnelCmd(m_LauncherSstm));
-    // Y Button -> Toggle Tunnel TODO: Bind Intake to Left Trigger
-    new JoystickButton(m_controller, Button.kY.value).whenHeld(new IntakeCmd(m_LauncherSstm));
-    // X Button -> Run Shooter TODO: Bind Shoot to Right Trigger
-    new JoystickButton(m_controller, Button.kX.value).whenHeld(new ShootCmd(m_LauncherSstm));
-    // Use X and Y buttons to test if both shooter motors run the same direction.
-    // Subject to change.
+    
+    //Right Bumper -> Boost Drive
+    new JoystickButton(m_controller, Button.kBumperRight.value)
+        .whenHeld(new BoostRobotDriveCmd(m_DriveSstm));
+    //Left Bumper -> Precision Drive
+    new JoystickButton(m_controller, Button.kBumperLeft.value)
+        .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
+    //A Button -> Aim on Vision Targets (LimeLight)
+    new JoystickButton(m_controller, Button.kA.value)
+        .whenHeld(new AimChassisCmd(m_DriveSstm));
+    //Left Stick Button -> Tunnel Shuffle Up
+    new JoystickButton(m_controller, Button.kStickLeft.value)
+    .whenHeld(new TunnelCmd(m_LauncherSstm, Constants.TUNNEL_SHUFFLE_UP_SPEED));
+    //Right Stick Button -> Tunnel Shuffle Down
+    new JoystickButton(m_controller, Button.kStickRight.value)
+    .whenHeld(new TunnelCmd(m_LauncherSstm, Constants.TUNNEL_SHUFFLE_DOWN_SPEED));
+    //B Button -> Trigger Claw Motor
+    new JoystickButton(m_controller, Button.kB.value)
+    .whenHeld(new ExtendClawCmd(m_ClimbSstm));
+    
   }
 
   /**
