@@ -45,6 +45,14 @@ public final class TrajectoryInfo {
     private TrajectoryInfo() {
     }
 
+    public static Trajectory driveForward() {
+        Trajectory t = TrajectoryGenerator.generateTrajectory(
+            poseOrigin,
+            List.of(new Translation2d(1, 0));
+            new Pose2d(2, 0, new Rotation2d(0)),
+            config);
+    }
+
     public static Trajectory simple3BallStn1() {
         Trajectory t = TrajectoryGenerator.generateTrajectory(
             poseOrigin,

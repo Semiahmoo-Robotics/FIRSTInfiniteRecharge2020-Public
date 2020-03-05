@@ -130,16 +130,14 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    // Trajectory in which the robot will follow
-    Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Starting point: at origin facing +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // TODO set waypoints to travel through
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        // Ending point: TODO set ending point and direction facing.
-        new Pose2d(3, 0, new Rotation2d(0)),
-        // pass trajectory config
-        trajectoryConfig);
+    Trajectory autoTrajectory;
+
+    switch (m_autoChooser.getSelected()) {
+      case "moveForward":
+      default:
+        autoTrajectory = TrajectoryInfo.driveForward();
+        break;
+    }
 
     // Get the total time of the trajectory in seconds and sends it to smart
     // dashboard.
