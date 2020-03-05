@@ -43,12 +43,13 @@ public final class Constants {
     public static final boolean L_SPARK_REVERSED = true;
     public static final boolean R_SPARK_REVERSED = true;
     public static final boolean GYRO_REVERSED = false;
-
+    
     //Robot Speeds
     public static final double PRECISION_SPEED = 0.5;
     public static final double NORMAL_SPEED = 0.75;
     public static final double BOOST_SPEED = 1.0;
-
+    public static final double AUTO_STRAIGHT_DRIVE_SPEED = 0.5;
+    
     //limelight
     public static final float LIMELIGHT_AIM_KP = -0.1f;
     public static final float LIMELIGHT_AIM_MIN_DEADBAND = 0.05f;
@@ -59,7 +60,7 @@ public final class Constants {
     //6 inch wheels
     public static final double WHEEL_DIAMETER_METERS = 0.15;
     public static final double ENCODER_DISTANCE_PER_PULSE =
-        (WHEEL_DIAMETER_METERS * Math.PI) / (double) ENCODER_COUNT_PER_REVOLUTION;
+    (WHEEL_DIAMETER_METERS * Math.PI) / (double) ENCODER_COUNT_PER_REVOLUTION;
 
     // TODO Robot characterization values
     // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
