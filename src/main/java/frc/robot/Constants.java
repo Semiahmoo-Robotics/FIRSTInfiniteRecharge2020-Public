@@ -53,6 +53,7 @@ public final class Constants {
     public static final double NORMAL_SPEED = 0.75;
     public static final double BOOST_SPEED = 1.0;
     public static final double AUTO_STRAIGHT_DRIVE_SPEED = 0.5;
+    public static final double AUTO_ROTATION_SPEED = 0.5;
     public static final double INTAKE_SPEED = 0.7;
     public static final double TUNNEL_SPEED = 0.4;
     public static final double LAUNCHER_SPEED = 1.0;
