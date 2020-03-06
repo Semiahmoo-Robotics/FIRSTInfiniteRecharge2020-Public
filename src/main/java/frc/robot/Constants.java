@@ -38,7 +38,7 @@ public final class Constants {
     public static final int DRIVE_CONTROLLER_PORT = 0;
     public static final int CONTROL_JOYSTICK_PORT = 1;
     public static final double TRIGGER_DEADBAND = 0.3d;
-    public static final double LOGITECH_DEADBAND = 0.1d;
+    public static final double LOGITECH_DEADBAND = 0.7d;
 
     //Other
 	public static final int PDP_CAN_PORT = 0;
@@ -51,13 +51,16 @@ public final class Constants {
     public static final boolean GYRO_REVERSED = false;
     
     //Robot Speeds
-    public static final double PRECISION_SPEED = 0.5;
-    public static final double NORMAL_SPEED = 0.75;
-    public static final double BOOST_SPEED = 1.0;
+    public static final double PRECISION_MULTIPLYER = 0.5;
+    public static final double NORMAL_MULTIPLYER = 0.80;
+    public static final double BOOST_MULTIPLYER = 1.0;
+
     public static final double AUTO_STRAIGHT_DRIVE_SPEED = 0.5;
+    public static final double TELEOP_ROTATE_SPEED = 0.75;
+    public static final double DAMPED_ARCADE_SPEED = 0.1;
+
     public static final double INTAKE_SPEED = 0.7;
     public static final double TUNNEL_SPEED = 0.75;
-    public static final double TUNNEL_SHUFFLE_SPEED = 0.4;
     public static final double LAUNCHER_SPEED = 1.0;
     public static final double CLIMB_SPEED = 1.0;
 
@@ -82,7 +85,7 @@ public final class Constants {
     public static final double KP_DRIVE = 0.03;
     public static final double KI_DRIVE = 0;
     public static final double KD_DRIVE = 0;
-	public static final double TURN_TOLERANCE_DEG = 5;
-	public static final double TURN_RATE_TOL_DEGPERSEC = 2;
+	public static final double TURN_TOLERANCE_DEG = 3;
+	public static final double TURN_RATE_TOL_DEGPERSEC = 1;
 	public static final double TURN_TOLERANCE_METERS = 5;
 }

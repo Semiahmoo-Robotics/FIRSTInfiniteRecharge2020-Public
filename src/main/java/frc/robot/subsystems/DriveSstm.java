@@ -36,7 +36,7 @@ public class DriveSstm extends SubsystemBase {
 
     m_lSpark.setInverted(Constants.L_SPARK_REVERSED);
     m_rSpark.setInverted(Constants.R_SPARK_REVERSED);
-    m_chassis.setMaxOutput(Constants.NORMAL_SPEED);
+    m_chassis.setMaxOutput(Constants.NORMAL_MULTIPLYER);
     m_chassis.setDeadband(0.035);
 
     // Stops motor if the robot loses connection to the driver station.

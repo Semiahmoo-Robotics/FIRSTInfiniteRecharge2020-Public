@@ -7,29 +7,26 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSstm;
+import frc.robot.subsystems.ShooterSstm;
 
-public class CurvatureDriveCmd extends CommandBase {
+public class AdjustableShootCmd extends CommandBase {
 
-  private final DriveSstm m_driveSstm;
-  private final DoubleSupplier m_x, m_z;
-  private final BooleanSupplier m_quickTurn;
+  private ShooterSstm m_launcherSstm;
+  private DoubleSupplier m_power;
 
-  public CurvatureDriveCmd(DriveSstm sstm, DoubleSupplier x, DoubleSupplier z, BooleanSupplier quickTurn) {
-    m_driveSstm = sstm;
-    m_x = x;
-    m_z = z;
-    m_quickTurn = quickTurn;
+  public AdjustableShootCmd(ShooterSstm sstm, DoubleSupplier power) {
+    this.m_launcherSstm = sstm;
+    this.m_power = power;
+
     addRequirements(sstm);
   }
 
   @Override
   public void execute() {
-    m_driveSstm.curvatureDrive(m_x.getAsDouble(), m_z.getAsDouble(), !m_quickTurn.getAsBoolean());
+    m_launcherSstm.setShooter(m_power.getAsDouble());
   }
 
 }

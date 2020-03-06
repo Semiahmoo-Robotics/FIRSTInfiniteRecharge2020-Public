@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -16,13 +17,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AdjustableShootCmd;
 import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.ExtendClawCmd;
 import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.PreciseRobotDriveCmd;
+import frc.robot.commands.PIDTurnToAngle;
 import frc.robot.commands.ShootCmd;
+import frc.robot.commands.TankArcadeCmd;
+import frc.robot.commands.TankDriveCmd;
 import frc.robot.commands.TunnelCmd;
 import frc.robot.subsystems.ClimbSstm;
 import frc.robot.subsystems.DriveSstm;
@@ -76,10 +81,14 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
 
-    //Tunnel Default Command 
-    m_TunnelSstm.setDefaultCommand(
-      new TunnelCmd(m_TunnelSstm, () -> m_controlJoystick.getPOV()));
+    // Tunnel Default Command
+    m_TunnelSstm.setDefaultCommand(new TunnelCmd(m_TunnelSstm, () -> m_controlJoystick.getPOV()));
 
+    // Drive Default Command
+    m_DriveSstm.setDefaultCommand(new TankArcadeCmd(m_DriveSstm, m_driveController, m_controlJoystick));
+
+    // Shooter Default Command
+    m_ShooterSstm.setDefaultCommand(new AdjustableShootCmd(m_ShooterSstm, () -> m_controlJoystick.getThrottle()));
   }
 
   /**
@@ -90,19 +99,38 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    // Right Bumper -> Boost Drive
-    new JoystickButton(m_driveController, Button.kBumperRight.value).whenHeld(new BoostRobotDriveCmd(m_DriveSstm));
-    // Left Bumper -> Precision Drive
-    new JoystickButton(m_driveController, Button.kBumperLeft.value).whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
+    //PLAYER 1 - JACK - DRIVE
+
+    // 2 Joysticks -> Tank Drive (Default)
     // A Button -> Aim on Vision Targets (LimeLight)
-    new JoystickButton(m_driveController, Button.kA.value).whenHeld(new AimChassisCmd(m_DriveSstm));
-    // B Button -> Trigger Claw Motor
-    new JoystickButton(m_driveController, Button.kB.value).whenHeld(new ExtendClawCmd(m_ClimbSstm));
+    new JoystickButton(m_driveController, Button.kA.value).whenHeld(
+      new AimChassisCmd(m_DriveSstm));
+    // Y Button -> Rotate 180 Deg
+    new JoystickButton(m_driveController, Button.kA.value).whenHeld(
+      new PIDTurnToAngle(180, m_DriveSstm));
+    // Left Bumper -> Rotate left
+    new JoystickButton(m_driveController, Button.kBumperLeft.value).whenHeld(
+      new TankDriveCmd(m_DriveSstm, () -> -Constants.TELEOP_ROTATE_SPEED, () -> Constants.TELEOP_ROTATE_SPEED));
+    // Right Bumper -> Rotate right
+    new JoystickButton(m_driveController, Button.kBumperRight.value).whenHeld(
+      new TankDriveCmd(m_DriveSstm, () -> Constants.TELEOP_ROTATE_SPEED, () -> -Constants.TELEOP_ROTATE_SPEED));
+    //Left Trigger -> Drive Straight. Sensitive to press depth.
+    new Trigger(() -> (m_driveController.getTriggerAxis(Hand.kLeft) > Constants.TRIGGER_DEADBAND)).whileActiveOnce(
+      new TankDriveCmd(m_DriveSstm, () -> m_driveController.getTriggerAxis(Hand.kLeft),  () -> m_driveController.getTriggerAxis(Hand.kLeft)));
+    //Right Trigger -> Apply Boost to speed. Not sensitive to press depth.
+    new Trigger(() -> (m_driveController.getTriggerAxis(Hand.kRight) > Constants.TRIGGER_DEADBAND)).whileActiveOnce(
+      new BoostRobotDriveCmd(m_DriveSstm));
 
-    new JoystickButton(m_controlJoystick, 1).whenHeld(new ShootCmd(m_ShooterSstm));
-
-    new JoystickButton(m_controlJoystick, 3).whenHeld(new IntakeCmd(m_IntakeSstm));
-
+    
+    //PLAYER 2 - GABE - CONTROL
+    // Main Joystick -> Damped Arcade Drive for slight angle adjustments (Default)
+    // Small POV -> Tunnel In/Out (Default)
+    // Slider -> Shooter Output (Default)
+    // Button 1 (Wii-mote B button) -> Intake
+    new JoystickButton(m_controlJoystick, 1).whenHeld(new IntakeCmd(m_IntakeSstm));
+    // Button 7 and 8 pressed together -> Trigger Claw Motor
+    new JoystickButton(m_driveController, 7).and(new JoystickButton(m_driveController, 8))
+      .whileActiveOnce(new ExtendClawCmd(m_ClimbSstm));
   }
 
   /**

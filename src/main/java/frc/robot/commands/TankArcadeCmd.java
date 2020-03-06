@@ -31,8 +31,12 @@ public class TankArcadeCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((m_controlJoystick.getY() > Constants.LOGITECH_DEADBAND) || (m_controlJoystick.getX() > Constants.LOGITECH_DEADBAND)) {
-      m_driveSstm.arcadeDrive(m_controlJoystick.getY(), m_controlJoystick.getX());
+    if ((Math.abs(m_controlJoystick.getY()) > Constants.LOGITECH_DEADBAND)
+      || (Math.abs(m_controlJoystick.getX()) > Constants.LOGITECH_DEADBAND)) {
+        m_driveSstm.arcadeDrive(
+          Math.copySign(Constants.DAMPED_ARCADE_SPEED, m_controlJoystick.getY()),
+          Math.copySign(Constants.DAMPED_ARCADE_SPEED, m_controlJoystick.getX())
+        );
     } else {
       m_driveSstm.tankDrive(m_driveController.getY(Hand.kLeft), m_driveController.getY(Hand.kRight));
     }

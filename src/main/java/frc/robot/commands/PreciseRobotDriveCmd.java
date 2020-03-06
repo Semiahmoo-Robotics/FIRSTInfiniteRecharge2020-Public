@@ -21,12 +21,12 @@ public class PreciseRobotDriveCmd extends CommandBase {
 
   @Override
   public void initialize() {
-    m_DriveSstm.setMaxOutput(Constants.PRECISION_SPEED);
+    m_DriveSstm.setMaxOutput(Constants.PRECISION_MULTIPLYER);
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_DriveSstm.setMaxOutput(Constants.NORMAL_SPEED);
+    m_DriveSstm.setMaxOutput(Constants.NORMAL_MULTIPLYER);
   }
 
 }
