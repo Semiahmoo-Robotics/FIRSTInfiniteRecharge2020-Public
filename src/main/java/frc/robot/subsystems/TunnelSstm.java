@@ -5,28 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSstm;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
-public class ShootCmd extends CommandBase {
-  
-  private ShooterSstm m_launcherSstm;
+public class TunnelSstm extends SubsystemBase {
 
-  public ShootCmd(ShooterSstm sstm) {
-    m_launcherSstm = sstm;
-    addRequirements(sstm);
+  //Tunnel
+  private final Spark m_tunnelSpark = new Spark(Constants.TUNNEL_PORT);
+
+  public TunnelSstm() {
+    m_tunnelSpark.setInverted(true);
   }
 
-  @Override
-  public void initialize() {
-    m_launcherSstm.setShooter(1.0);
+  //Tunnel Functions
+  public void setTunnel(double speed) {
+    m_tunnelSpark.set(speed);
   }
 
-  @Override
-  public void end(boolean interrupted) {
-    m_launcherSstm.stopShooter();
+  public void stopTunnel() {
+    m_tunnelSpark.stopMotor();
   }
 
 }

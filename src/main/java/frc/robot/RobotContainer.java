@@ -8,12 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -21,14 +20,15 @@ import frc.robot.commands.AimChassisCmd;
 import frc.robot.commands.BoostRobotDriveCmd;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.ExtendClawCmd;
+import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.PreciseRobotDriveCmd;
 import frc.robot.commands.ShootCmd;
-import frc.robot.commands.TankDriveCmd;
-import frc.robot.commands.TriggerLaunchCmd;
 import frc.robot.commands.TunnelCmd;
 import frc.robot.subsystems.ClimbSstm;
 import frc.robot.subsystems.DriveSstm;
-import frc.robot.subsystems.LauncherSstm;
+import frc.robot.subsystems.IntakeSstm;
+import frc.robot.subsystems.ShooterSstm;
+import frc.robot.subsystems.TunnelSstm;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -41,11 +41,14 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here.
   private final DriveSstm m_DriveSstm = new DriveSstm();
-  private final LauncherSstm m_LauncherSstm = new LauncherSstm();
+  private final ShooterSstm m_ShooterSstm = new ShooterSstm();
+  private final TunnelSstm m_TunnelSstm = new TunnelSstm();
+  private final IntakeSstm m_IntakeSstm = new IntakeSstm();
   private final ClimbSstm m_ClimbSstm = new ClimbSstm();
 
   // OI devices
-  private final XboxController m_controller = new XboxController(Constants.CONTROLLER_PORT);
+  private final XboxController m_driveController = new XboxController(Constants.DRIVE_CONTROLLER_PORT);
+  private final Joystick m_controlJoystick = new Joystick(Constants.CONTROL_JOYSTICK_PORT);
 
   // Autochooser
   private final SendableChooser<String> m_autoChooser = new SendableChooser<String>();
@@ -63,7 +66,7 @@ public class RobotContainer {
 
     // Sets autochooser on the SmartDashboard
     setAutochooser();
-    
+
   }
 
   private void setAutochooser() {
@@ -73,32 +76,11 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
 
-    // Launcher Triggers Default Command
-    // Left Trigger -> Run Intake
-    // Right Trigger -> Run Shooting sequence: Tunnel and Shooter
-    m_LauncherSstm.setDefaultCommand(new TriggerLaunchCmd(m_LauncherSstm, () -> m_controller.getTriggerAxis(Hand.kLeft),
-        () -> m_controller.getTriggerAxis(Hand.kRight)));
+    //Tunnel Default Command 
+    m_TunnelSstm.setDefaultCommand(
+      new TunnelCmd(m_TunnelSstm, () -> m_controlJoystick.getPOV()));
 
-    // #1 - Tank Drive
-    m_DriveSstm.setDefaultCommand(
-        new TankDriveCmd(m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () -> m_controller.getY(Hand.kRight)));
-
-    /*
-     * m_LauncherSstm.setDefaultCommand(new LauncherCmd( m_LauncherSstm, () ->
-     * m_controller.getTriggerAxis(Hand.kLeft), () ->
-     * m_controller.getTriggerAxis(Hand.kLeft); );
-     */
-    /*
-     * //#2 - Arcade Drive m_DriveSstm.setDefaultCommand(new ArcadeDriveCmd(
-     * m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () ->
-     * m_controller.getX(Hand.kLeft)));
-     */
-
-    /*
-     * // #3 - Curvature Drive m_DriveSstm.setDefaultCommand(new CurvatureDriveCmd(
-     * m_DriveSstm, () -> m_controller.getY(Hand.kLeft), () ->
-     * m_controller.getX(Hand.kLeft), () -> m_controller.getBButton()));
-     */ }
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -107,26 +89,20 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
-    //Right Bumper -> Boost Drive
-    new JoystickButton(m_controller, Button.kBumperRight.value)
-        .whenHeld(new BoostRobotDriveCmd(m_DriveSstm));
-    //Left Bumper -> Precision Drive
-    new JoystickButton(m_controller, Button.kBumperLeft.value)
-        .whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
-    //A Button -> Aim on Vision Targets (LimeLight)
-    new JoystickButton(m_controller, Button.kA.value)
-        .whenHeld(new AimChassisCmd(m_DriveSstm));
-    //Y Button -> Tunnel Shuffle Up
-    new JoystickButton(m_controller, Button.kY.value)
-    .whenHeld(new TunnelCmd(m_LauncherSstm, Constants.TUNNEL_SHUFFLE_UP_SPEED));
-    //X Button -> Tunnel Shuffle Down
-    new JoystickButton(m_controller, Button.kX.value)
-    .whenHeld(new TunnelCmd(m_LauncherSstm, Constants.TUNNEL_SHUFFLE_DOWN_SPEED));
-    //B Button -> Trigger Claw Motor
-    new JoystickButton(m_controller, Button.kB.value)
-    .whenHeld(new ExtendClawCmd(m_ClimbSstm));
-    
+
+    // Right Bumper -> Boost Drive
+    new JoystickButton(m_driveController, Button.kBumperRight.value).whenHeld(new BoostRobotDriveCmd(m_DriveSstm));
+    // Left Bumper -> Precision Drive
+    new JoystickButton(m_driveController, Button.kBumperLeft.value).whenHeld(new PreciseRobotDriveCmd(m_DriveSstm));
+    // A Button -> Aim on Vision Targets (LimeLight)
+    new JoystickButton(m_driveController, Button.kA.value).whenHeld(new AimChassisCmd(m_DriveSstm));
+    // B Button -> Trigger Claw Motor
+    new JoystickButton(m_driveController, Button.kB.value).whenHeld(new ExtendClawCmd(m_ClimbSstm));
+
+    new JoystickButton(m_controlJoystick, 1).whenHeld(new ShootCmd(m_ShooterSstm));
+
+    new JoystickButton(m_controlJoystick, 3).whenHeld(new IntakeCmd(m_IntakeSstm));
+
   }
 
   /**
@@ -139,25 +115,20 @@ public class RobotContainer {
     Command autoCommand;
 
     switch (m_autoChooser.getSelected()) {
-      case "moveForward":
-        autoCommand = new DriveStraight(m_DriveSstm, 1).withTimeout(5);
-        break;
-      case "moveBackAndShoot":
-        autoCommand = new SequentialCommandGroup(
-          new DriveStraight(m_DriveSstm, -1).withTimeout(5),
-          new AimChassisCmd(m_DriveSstm).withTimeout(5),
-          new ShootCmd(m_LauncherSstm).withTimeout(5)
-          );
-        break;
-      default:
-        autoCommand = new DriveStraight(m_DriveSstm, 1).withTimeout(5);
-        break;
+    case "moveForward":
+      autoCommand = new DriveStraight(m_DriveSstm, 0.5).withTimeout(5);
+      break;
+    case "moveBackAndShoot":
+      autoCommand = new SequentialCommandGroup(new AimChassisCmd(m_DriveSstm).withTimeout(5),
+          new ShootCmd(m_ShooterSstm).withTimeout(2), new ParallelCommandGroup(
+              new TunnelCmd(m_TunnelSstm, () -> 0).withTimeout(5), new ShootCmd(m_ShooterSstm).withTimeout(5)));
+      break;
+    default:
+      autoCommand = new DriveStraight(m_DriveSstm, 0.5).withTimeout(5);
+      break;
     }
 
-    return new SequentialCommandGroup(autoCommand, new ParallelCommandGroup(
-      new InstantCommand(m_DriveSstm::stopChassis, m_DriveSstm), 
-      new InstantCommand(m_LauncherSstm::stopAll, m_LauncherSstm)
-    ));
+    return autoCommand;
   }
 
 }

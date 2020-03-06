@@ -9,30 +9,30 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.LauncherSstm;
+import frc.robot.subsystems.IntakeSstm;
 
 public class IntakeCmd extends CommandBase {
 
-  private LauncherSstm m_launcherSstm;
+  private IntakeSstm m_intakeSstm;
 
   //Shuffleboard Config
   private double m_intakeSpeed = Constants.INTAKE_SPEED;
 
-  public IntakeCmd(LauncherSstm sstm) {
-    m_launcherSstm = sstm;
+  public IntakeCmd(IntakeSstm sstm) {
+    m_intakeSstm = sstm;
     addRequirements(sstm);
   }
 
   // Called when the command is initially scheduled
   @Override
   public void initialize() {
-    m_launcherSstm.setIntake(m_intakeSpeed);
+    m_intakeSstm.setIntake(m_intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_launcherSstm.stopIntake();
+    m_intakeSstm.stopIntake();
   }
 
   // Returns true when the command should end.

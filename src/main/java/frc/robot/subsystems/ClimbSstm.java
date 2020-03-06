@@ -19,12 +19,8 @@ public class ClimbSstm extends SubsystemBase {
 
   }
 
-  public void breakLink() {
-    m_climberSpark.set(1.0);
-  }
-
-  public void retractClaw() {
-    m_climberSpark.set(1.0);
+  public void spinClimb() {
+    m_climberSpark.set(Constants.CLIMB_SPEED);
   }
 
   public void stopAll() {

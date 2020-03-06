@@ -22,8 +22,8 @@ public final class Constants {
     //PWM
     public static final int L_DRIVE_PORT = 0;
     public static final int R_DRIVE_PORT = 1;
-    public static final int L_LAUNCHER_PORT = 2;
-    public static final int R_LAUNCHER_PORT = 3;
+    public static final int L_SHOOTER_PORT = 2;
+    public static final int R_SHOOTER_PORT = 3;
     public static final int TUNNEL_PORT = 4;
     public static final int INTAKE_PORT = 5;
     public static final int CLIMB_PORT = 6;
@@ -35,8 +35,10 @@ public final class Constants {
     public static final int R_ENCODER_B = 3;
 
     //Controller
-    public static final int CONTROLLER_PORT = 0;
+    public static final int DRIVE_CONTROLLER_PORT = 0;
+    public static final int CONTROL_JOYSTICK_PORT = 1;
     public static final double TRIGGER_DEADBAND = 0.3d;
+    public static final double LOGITECH_DEADBAND = 0.1d;
 
     //Other
 	public static final int PDP_CAN_PORT = 0;
@@ -54,15 +56,15 @@ public final class Constants {
     public static final double BOOST_SPEED = 1.0;
     public static final double AUTO_STRAIGHT_DRIVE_SPEED = 0.5;
     public static final double INTAKE_SPEED = 0.7;
-    public static final double TUNNEL_SPEED = 0.4;
-    public static final double TUNNEL_SHUFFLE_UP_SPEED = 0.4;
-    public static final double TUNNEL_SHUFFLE_DOWN_SPEED = -0.4;
+    public static final double TUNNEL_SPEED = 0.75;
+    public static final double TUNNEL_SHUFFLE_SPEED = 0.4;
     public static final double LAUNCHER_SPEED = 1.0;
+    public static final double CLIMB_SPEED = 1.0;
 
     //TODO limelight
-    public static final float LIMELIGHT_AIM_KP = -0.1f;
-    public static final float LIMELIGHT_DISTANCE_KP = -0.1f;
-    public static final float LIMELIGHT_AIM_MIN_DEADBAND = 0.05f;
+    public static final float LIMELIGHT_AIM_KP = -0.07f;
+    public static final float LIMELIGHT_DISTANCE_KP = -0.07f;
+    public static final float LIMELIGHT_AIM_MIN_DEADBAND = 0.01f;
 
     //TODO Encoder constants
     //1024 if using am-3445, 5 if using am-3314a
@@ -73,4 +75,14 @@ public final class Constants {
     public static final double ENCODER_DISTANCE_METERS_PER_PULSE =
     (WHEEL_DIAMETER_METERS * Math.PI) / (double) ENCODER_COUNT_PER_REVOLUTION;
 
+    //PID Constants
+    public static final double KP_ANGLE = 0.03;
+    public static final double KI_ANGLE = 0;
+    public static final double KD_ANGLE = 0;
+    public static final double KP_DRIVE = 0.03;
+    public static final double KI_DRIVE = 0;
+    public static final double KD_DRIVE = 0;
+	public static final double TURN_TOLERANCE_DEG = 5;
+	public static final double TURN_RATE_TOL_DEGPERSEC = 2;
+	public static final double TURN_TOLERANCE_METERS = 5;
 }

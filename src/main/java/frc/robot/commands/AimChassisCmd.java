@@ -7,8 +7,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.networktables.NetworkTable;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSstm;
@@ -16,16 +18,19 @@ import frc.robot.subsystems.DriveSstm;
 public class AimChassisCmd extends CommandBase {
 
   private final DriveSstm m_driveSstm;
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  DoubleSupplier tx = () -> NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+  DoubleSupplier ty = () -> NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
 
   //Proportional Constant 
   private final float AIM_KP = Constants.LIMELIGHT_AIM_KP;
   private final float DISTANCE_KP = Constants.LIMELIGHT_DISTANCE_KP;
   private final float DEADBAND = Constants.LIMELIGHT_AIM_MIN_DEADBAND;
+  private float steering_adjust = 0.0f;
+  private float distance_adjust = 0.0f;
+
 
   private float left_command = 0;
   private float right_command = 0;
-
 
   public AimChassisCmd(DriveSstm sstm) {
     m_driveSstm = sstm;
@@ -34,20 +39,20 @@ public class AimChassisCmd extends CommandBase {
 
   @Override
   public void execute() {
-    float tx  = (float) table.getEntry("tx").getDouble(0);
-    float ty  = (float) table.getEntry("ty").getDouble(0);
-    float heading_error = -tx;
-    float distance_error = -ty;
-    float steering_adjust = 0.0f;
-    if (tx > 1.0) {
-      steering_adjust = AIM_KP * heading_error - DEADBAND;
-    } else if (tx < 1.0) {
-      steering_adjust = AIM_KP * heading_error + DEADBAND;
-    }
-    float distance_adjust = DISTANCE_KP * distance_error;
+    float heading_error = -((float) tx.getAsDouble());
+    float distance_error = -((float) ty.getAsDouble());
+    SmartDashboard.putNumber("tx", heading_error);
+    SmartDashboard.putNumber("ty", distance_error);
 
-    left_command += steering_adjust + distance_adjust;
-    right_command -= steering_adjust + distance_adjust;
+    if (-heading_error > 0) {
+      steering_adjust = (AIM_KP * heading_error) - DEADBAND;
+    } else if (-heading_error < 0) {
+      steering_adjust = (AIM_KP * heading_error) + DEADBAND;
+    }
+    distance_adjust = DISTANCE_KP * distance_error;
+
+    left_command = -steering_adjust + distance_adjust;
+    right_command = steering_adjust + distance_adjust;
     m_driveSstm.tankDrive(left_command, right_command);
   }
 

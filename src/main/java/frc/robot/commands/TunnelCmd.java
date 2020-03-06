@@ -7,37 +7,36 @@
 
 package frc.robot.commands;
 
+import java.util.function.IntSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LauncherSstm;
+import frc.robot.Constants;
+import frc.robot.subsystems.TunnelSstm;
 
 public class TunnelCmd extends CommandBase {
 
-  private LauncherSstm m_launcherSstm;
-  private double direction;
+  private TunnelSstm m_launcherSstm;
+  private IntSupplier POVdirection;
 
-  //Shuffleboard Config
-
-  public TunnelCmd(LauncherSstm sstm, double direction) {
+  public TunnelCmd(TunnelSstm sstm, IntSupplier POVdirection) {
     this.m_launcherSstm = sstm;
-    this.direction = direction;
+    this.POVdirection = POVdirection;
     addRequirements(sstm);
   }
 
-  // Called when the command is initially scheduled
   @Override
-  public void initialize() {
-    m_launcherSstm.setTunnel(direction);
+  public void execute() {
+    switch (POVdirection.getAsInt()) {
+      case 0:
+        m_launcherSstm.setTunnel(Constants.TUNNEL_SPEED);
+      break;
+      case 180:
+        m_launcherSstm.setTunnel(-Constants.TUNNEL_SPEED);
+      break;
+      default:
+        m_launcherSstm.stopTunnel();
+      break;
+    }
   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_launcherSstm.stopTunnel();
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }

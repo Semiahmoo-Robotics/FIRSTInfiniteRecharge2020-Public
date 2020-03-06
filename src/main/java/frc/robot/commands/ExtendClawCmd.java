@@ -21,7 +21,7 @@ public class ExtendClawCmd extends CommandBase {
 
   @Override
   public void initialize() {
-    m_climbSstm.breakLink();
+    m_climbSstm.spinClimb();
   }
 
   // Called once the command ends or is interrupted.

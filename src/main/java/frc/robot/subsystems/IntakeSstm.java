@@ -5,28 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSstm;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
-public class ShootCmd extends CommandBase {
-  
-  private ShooterSstm m_launcherSstm;
+public class IntakeSstm extends SubsystemBase {
 
-  public ShootCmd(ShooterSstm sstm) {
-    m_launcherSstm = sstm;
-    addRequirements(sstm);
+  //Intake
+  private final Spark m_intakeSpark = new Spark(Constants.INTAKE_PORT);
+
+  public IntakeSstm() {
+    m_intakeSpark.setInverted(false);
   }
 
-  @Override
-  public void initialize() {
-    m_launcherSstm.setShooter(1.0);
+  //Intake Functions
+  public void setIntake(double speed) {
+    m_intakeSpark.set(speed);
   }
 
-  @Override
-  public void end(boolean interrupted) {
-    m_launcherSstm.stopShooter();
+  public void stopIntake() {
+    m_intakeSpark.stopMotor();
   }
 
 }

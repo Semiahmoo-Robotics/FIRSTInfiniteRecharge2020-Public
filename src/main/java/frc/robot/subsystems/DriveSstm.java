@@ -7,15 +7,15 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -30,9 +30,7 @@ public class DriveSstm extends SubsystemBase {
   private final Encoder m_rEncoder = new Encoder(Constants.R_ENCODER_A, Constants.R_ENCODER_B,
       Constants.R_ENCODER_REVERSED);
 
-  private final Gyro m_gyro = new ADXRS450_Gyro();
-
-  private final DifferentialDriveOdometry m_odometry;
+  private AHRS m_ahrs;
 
   public DriveSstm() {
 
@@ -48,25 +46,23 @@ public class DriveSstm extends SubsystemBase {
     m_rEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_METERS_PER_PULSE);
     zeroREncoder();
     zeroLEncoder();
+
+    try {
+      m_ahrs = new AHRS(SPI.Port.kMXP);
+      m_ahrs.enableLogging(true);
+    } catch (RuntimeException e) {
+      DriverStation.reportError("Error instantiating navX MXP:  " + e.getMessage(), true);
+    }
     calibrateGyro();
 
-    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroDeg()));
   }
 
   @Override
   public void periodic() {
-    // Update the odometry in the periodic block
-    m_odometry.update(Rotation2d.fromDegrees(getGyroDeg()),
-        getLEncoderDistance(), getREncoderDistance());    
-  }
-  
-  /**
-   * Returns the currently-estimated pose of the robot.
-   *
-   * @return The pose.
-   */
-  public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    SmartDashboard.putNumber("IMU_Yaw", m_ahrs.getYaw());
+    SmartDashboard.putNumber("Gyro_Angle", getGyroDeg());
+    SmartDashboard.putNumber("Left_Drive_Encoder", getLEncoderDistance());
+    SmartDashboard.putNumber("Right_Drive_Encoder", getLEncoderDistance());
   }
 
   /**
@@ -77,18 +73,6 @@ public class DriveSstm extends SubsystemBase {
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(m_lEncoder.getRate(), m_rEncoder.getRate());
   }
-
-  /**
-   * Resets the odometry to the specified pose.
-   *
-   * @param pose The pose to which to set the odometry.
-   */
-  public void resetOdometry(Pose2d pose) {
-    zeroREncoder();
-    zeroLEncoder();
-    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getGyroDeg()));
-  }
-  
 
   /**
    * Drives the robot using tank controls.
@@ -125,9 +109,9 @@ public class DriveSstm extends SubsystemBase {
   /**
    * Drives the robot using curvature controls.
    *
-   * @param x the commanded forward movement
-   * @param z the commanded magnitude of curvature
-   * @param quickTurn If true, overides curvature drive for turning in place.
+   * @param x         the commanded forward movement
+   * @param z         the commanded magnitude of curvature
+   * @param quickTurn If true, overides curvature drive for tu`rning in place.
    */
   public void curvatureDrive(double x, double z, boolean quickTurn) {
     m_chassis.curvatureDrive(x, z, quickTurn);
@@ -146,23 +130,17 @@ public class DriveSstm extends SubsystemBase {
     m_chassis.tankDrive(0, 0);
   }
 
-
   public void zeroGyroHeading() {
-    m_gyro.reset();
+    m_ahrs.zeroYaw();
   }
 
   public void calibrateGyro() {
-    m_gyro.calibrate();
+    m_ahrs.calibrate();
   }
 
   public double getGyroDeg() {
-    return Math.IEEEremainder(m_gyro.getAngle(), 360) * (Constants.GYRO_REVERSED ? -1.0 : 1.0);
+    return Math.IEEEremainder(m_ahrs.getAngle(), 360) * (Constants.GYRO_REVERSED ? -1.0 : 1.0);
   }
-
-  public double getGyroTurnRate() {
-    return m_gyro.getRate();
-  }
-
 
   public void zeroLEncoder() {
     m_lEncoder.reset();
@@ -172,15 +150,13 @@ public class DriveSstm extends SubsystemBase {
     return m_lEncoder.getDistance();
   }
 
-
   public void zeroREncoder() {
     m_rEncoder.reset();
-  }  
-  
+  }
+
   public double getREncoderDistance() {
     return m_rEncoder.getDistance();
   }
-
 
   /**
    * Gets the average distance of the two encoders.
@@ -190,6 +166,5 @@ public class DriveSstm extends SubsystemBase {
   public double getAverageEncoderDistance() {
     return (getLEncoderDistance() + getREncoderDistance()) / 2.0;
   }
-
 
 }
